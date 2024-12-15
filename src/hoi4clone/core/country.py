@@ -2,7 +2,6 @@
 import random
 from typing import List, Tuple, Dict, Optional
 import numpy as np
-from shapely.geometry import Polygon, MultiPolygon
 
 class Country:
     def __init__(self, name: str, polygons: List[List[Tuple[float, float]]]):
@@ -23,45 +22,20 @@ class Country:
         self.max_lon = np.max(all_points[:, 0])
         self.min_lat = np.min(all_points[:, 1])
         self.max_lat = np.max(all_points[:, 1])
-        
-        # Create Shapely polygons and calculate areas
-        self.shapely_polygons = []
-        self.polygon_areas = []
-        for poly in self.polygons:
-            shapely_poly = Polygon(poly)
-            self.shapely_polygons.append(shapely_poly)
-            self.polygon_areas.append(shapely_poly.area)
 
     def get_polygons(self, zoom: float) -> List[np.ndarray]:
         """Get polygons at appropriate detail level"""
-        # Define area thresholds for different zoom levels
-        zoom_thresholds = [
-            (0.5, 10.0, 8),  # zoom <= 0.5: very large landmasses, every 8th point
-            (1.0, 5.0, 4),   # zoom <= 1.0: large landmasses, every 4th point
-            (2.0, 1.0, 2),   # zoom <= 2.0: medium landmasses, every 2nd point
-            (4.0, 0.1, 1),   # zoom <= 4.0: small islands, all points
-            (float('inf'), 0.0, 1)  # zoom > 4.0: everything, all points
-        ]
-        
-        # Find appropriate threshold
-        area_threshold = 0.0
-        point_skip = 1
-        for max_zoom, min_area, skip in zoom_thresholds:
-            if zoom <= max_zoom:
-                area_threshold = min_area
-                point_skip = skip
-                break
-        
-        # Get polygons that meet the area threshold
-        visible_polys = []
-        for poly, area in zip(self.polygons, self.polygon_areas):
-            if area >= area_threshold:
-                # Take every nth point based on zoom level
-                points = poly[::point_skip]
-                if len(points) >= 3:  # Ensure we have enough points for a polygon
-                    visible_polys.append(points)
-        
-        return visible_polys
+        # Skip points based on zoom level
+        if zoom <= 0.5:
+            return [poly[::16] for poly in self.polygons]  # Very low detail
+        elif zoom <= 1.0:
+            return [poly[::8] for poly in self.polygons]   # Low detail
+        elif zoom <= 2.0:
+            return [poly[::4] for poly in self.polygons]   # Medium detail
+        elif zoom <= 4.0:
+            return [poly[::2] for poly in self.polygons]   # High detail
+        else:
+            return self.polygons                           # Full detail
 
     def get_visible_polygons(self, min_lon: float, max_lon: float, 
                            min_lat: float, max_lat: float, zoom: float) -> List[np.ndarray]:
@@ -74,15 +48,32 @@ class Country:
         # Get polygons at appropriate detail level
         polygons = self.get_polygons(zoom)
         
-        # Filter points to only those in viewport
+        # Filter points to only those in viewport with margin
+        margin = 1.0  # degree margin to prevent edge artifacts
         visible_polygons = []
         for polygon in polygons:
             # Use numpy for faster filtering
-            mask = ((polygon[:, 0] >= min_lon - 1) & (polygon[:, 0] <= max_lon + 1) &
-                   (polygon[:, 1] >= min_lat - 1) & (polygon[:, 1] <= max_lat + 1))
-            visible_points = polygon[mask]
-            if len(visible_points) >= 3:
-                visible_polygons.append(visible_points)
+            mask = ((polygon[:, 0] >= min_lon - margin) & 
+                   (polygon[:, 0] <= max_lon + margin) &
+                   (polygon[:, 1] >= min_lat - margin) & 
+                   (polygon[:, 1] <= max_lat + margin))
+            
+            if np.any(mask):  # Only process if any points are visible
+                # Get consecutive segments of visible points
+                changes = np.diff(mask.astype(int))
+                segment_starts = np.where(changes == 1)[0] + 1
+                segment_ends = np.where(changes == -1)[0] + 1
+                
+                if mask[0]:
+                    segment_starts = np.insert(segment_starts, 0, 0)
+                if mask[-1]:
+                    segment_ends = np.append(segment_ends, len(mask))
+                
+                # Add points just outside the visible segments
+                for start, end in zip(segment_starts, segment_ends):
+                    segment = polygon[max(0, start-1):min(len(polygon), end+1)]
+                    if len(segment) >= 3:
+                        visible_polygons.append(segment)
         
         return visible_polygons
 
@@ -93,8 +84,24 @@ class Country:
             lat < self.min_lat or lat > self.max_lat):
             return False
         
-        point = Polygon([(lon, lat)])
-        return any(poly.contains(point) for poly in self.shapely_polygons)
+        point = np.array([lon, lat])
+        
+        # Ray casting algorithm using numpy
+        for polygon in self.polygons:
+            inside = False
+            j = len(polygon) - 1
+            
+            for i in range(len(polygon)):
+                if ((polygon[i, 1] > lat) != (polygon[j, 1] > lat) and
+                    lon < (polygon[j, 0] - polygon[i, 0]) * (lat - polygon[i, 1]) /
+                    (polygon[j, 1] - polygon[i, 1]) + polygon[i, 0]):
+                    inside = not inside
+                j = i
+                
+            if inside:
+                return True
+        
+        return False
 
     def get_color(self) -> Tuple[int, int, int]:
         """Get country color, adjusted for selection state"""

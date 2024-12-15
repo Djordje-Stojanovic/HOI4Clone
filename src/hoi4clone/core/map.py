@@ -1,6 +1,6 @@
 """Map rendering and coordinate handling"""
 import pygame
-from typing import Tuple, List, Dict
+from typing import Tuple, List
 from hoi4clone.utils.config import *
 from hoi4clone.core.country import Country, CountryManager
 from hoi4clone.core.city import City, CityManager
@@ -20,12 +20,9 @@ class MapRenderer:
         self.water_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.water_surface.fill(WATER_COLOR)
         
-        # Create main map surface
-        self.map_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.map_surface.fill(WATER_COLOR)
-        
-        # Store country geometries
-        self.country_geometries: Dict[str, List[List[Tuple[float, float]]]] = {}
+        # Viewport tracking
+        self.last_viewport = None
+        self.visible_countries = []
 
     def geo_to_screen(self, lon: float, lat: float) -> Tuple[int, int]:
         """Convert geographic coordinates to screen coordinates"""
@@ -45,33 +42,57 @@ class MapRenderer:
         lat = -(y * 180 - 90)
         return lon, lat
 
-    def draw_country(self, country: Country):
-        """Draw a single country"""
-        # Get visible bounds
+    def update_visible_countries(self, country_manager: CountryManager):
+        """Update list of visible countries"""
         min_lon, max_lat = self.screen_to_geo(0, 0)
         max_lon, min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
         
-        # Get polygons at appropriate detail level
-        polygons = country.get_polygons(self.zoom)
+        # Add margin to prevent pop-in
+        margin = (max_lon - min_lon) * 0.1
+        min_lon -= margin
+        max_lon += margin
+        min_lat -= margin
+        max_lat += margin
         
-        # Draw polygons
+        # Only update if viewport changed significantly
+        new_viewport = (min_lon, max_lon, min_lat, max_lat)
+        if (self.last_viewport is None or
+            any(abs(new - old) > 1.0 for new, old in zip(new_viewport, self.last_viewport))):
+            self.visible_countries = [
+                country for country in country_manager.countries.values()
+                if (country.max_lon >= min_lon and country.min_lon <= max_lon and
+                    country.max_lat >= min_lat and country.min_lat <= max_lat)
+            ]
+            self.last_viewport = new_viewport
+
+    def draw_country(self, country: Country):
+        """Draw a single country"""
+        min_lon, max_lat = self.screen_to_geo(0, 0)
+        max_lon, min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
+        
+        # Get visible polygons
+        polygons = country.get_visible_polygons(min_lon, max_lon, min_lat, max_lat, self.zoom)
+        
+        # Convert coordinates in batch
         for polygon in polygons:
-            points = []
-            # Convert coordinates in batch
-            coords = np.array(polygon)
-            screen_coords = np.column_stack([
-                (coords[:, 0] + 180) / 360 * WINDOW_WIDTH * self.zoom + self.offset_x,
-                (-coords[:, 1] + 90) / 180 * WINDOW_HEIGHT * self.zoom + self.offset_y
+            # Convert all points at once using numpy
+            points = np.column_stack([
+                (polygon[:, 0] + 180) / 360 * WINDOW_WIDTH * self.zoom + self.offset_x,
+                (-polygon[:, 1] + 90) / 180 * WINDOW_HEIGHT * self.zoom + self.offset_y
             ]).astype(np.int32)
             
-            if len(screen_coords) >= 3:
-                pygame.draw.polygon(self.screen, country.get_color(), screen_coords)
+            if len(points) >= 3:
+                pygame.draw.polygon(self.screen, country.get_color(), points)
                 if self.zoom >= 1.0:
-                    pygame.draw.polygon(self.screen, (0, 0, 0), screen_coords, 1)
+                    pygame.draw.polygon(self.screen, (0, 0, 0), points, 1)
 
     def draw_city(self, city: City):
         """Draw a single city"""
         x, y = self.geo_to_screen(city.lon, city.lat)
+        
+        # Skip if outside screen
+        if not (0 <= x <= WINDOW_WIDTH and 0 <= y <= WINDOW_HEIGHT):
+            return
         
         # Draw city marker
         pygame.draw.circle(self.screen, (0, 0, 0), (x, y), 4)
@@ -93,15 +114,16 @@ class MapRenderer:
         # Draw water background
         self.screen.blit(self.water_surface, (0, 0))
         
+        # Update visible countries
+        self.update_visible_countries(country_manager)
+        
+        # Draw visible countries
+        for country in self.visible_countries:
+            self.draw_country(country)
+        
         # Get visible bounds
         min_lon, max_lat = self.screen_to_geo(0, 0)
         max_lon, min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
-        
-        # Draw countries
-        for country in country_manager.countries.values():
-            if (country.max_lon >= min_lon and country.min_lon <= max_lon and
-                country.max_lat >= min_lat and country.min_lat <= max_lat):
-                self.draw_country(country)
         
         # Draw cities
         visible_cities = city_manager.get_visible_cities(
@@ -140,8 +162,10 @@ class MapRenderer:
             new_x, new_y = self.geo_to_screen(old_lon, old_lat)
             self.offset_x += mouse_x - new_x
             self.offset_y += mouse_y - new_y
+            self.last_viewport = None  # Force visible countries update
 
     def pan(self, dx: int, dy: int):
         """Pan the map by the given amount"""
         self.offset_x += dx
         self.offset_y += dy
+        self.last_viewport = None  # Force visible countries update
