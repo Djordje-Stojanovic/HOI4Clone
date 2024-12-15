@@ -1,0 +1,83 @@
+Multimedia Services
+*******************
+
+The modules described in this chapter implement various algorithms or
+interfaces that are mainly useful for multimedia applications.  They
+are available at the discretion of the installation.  Here's an
+overview:
+
+* "wave" --- Read and write WAV files
+
+  * "open()"
+
+  * "Error"
+
+  * Wave_read Objects
+
+    * "Wave_read"
+
+      * "close()"
+
+      * "getnchannels()"
+
+      * "getsampwidth()"
+
+      * "getframerate()"
+
+      * "getnframes()"
+
+      * "getcomptype()"
+
+      * "getcompname()"
+
+      * "getparams()"
+
+      * "readframes()"
+
+      * "rewind()"
+
+      * "getmarkers()"
+
+      * "getmark()"
+
+      * "setpos()"
+
+      * "tell()"
+
+  * Wave_write Objects
+
+    * "Wave_write"
+
+      * "close()"
+
+      * "setnchannels()"
+
+      * "setsampwidth()"
+
+      * "setframerate()"
+
+      * "setnframes()"
+
+      * "setcomptype()"
+
+      * "setparams()"
+
+      * "tell()"
+
+      * "writeframesraw()"
+
+      * "writeframes()"
+
+* "colorsys" --- Conversions between color systems
+
+  * "rgb_to_yiq()"
+
+  * "yiq_to_rgb()"
+
+  * "rgb_to_hls()"
+
+  * "hls_to_rgb()"
+
+  * "rgb_to_hsv()"
+
+  * "hsv_to_rgb()"

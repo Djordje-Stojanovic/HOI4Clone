@@ -1,0 +1,170 @@
+Cryptographic Services
+**********************
+
+The modules described in this chapter implement various algorithms of
+a cryptographic nature.  They are available at the discretion of the
+installation. Here's an overview:
+
+* "hashlib" --- Secure hashes and message digests
+
+  * Hash algorithms
+
+  * Usage
+
+  * Constructors
+
+    * "new()"
+
+    * "md5()"
+
+    * "sha1()"
+
+    * "sha224()"
+
+    * "sha256()"
+
+    * "sha384()"
+
+    * "sha512()"
+
+    * "sha3_224()"
+
+    * "sha3_256()"
+
+    * "sha3_384()"
+
+    * "sha3_512()"
+
+  * Attributes
+
+    * "algorithms_guaranteed"
+
+    * "algorithms_available"
+
+  * Hash Objects
+
+    * "digest_size"
+
+    * "block_size"
+
+    * "name"
+
+    * "update()"
+
+    * "digest()"
+
+    * "hexdigest()"
+
+    * "copy()"
+
+  * SHAKE variable length digests
+
+    * "shake_128()"
+
+    * "shake_256()"
+
+    * "digest()"
+
+    * "hexdigest()"
+
+  * File hashing
+
+    * "file_digest()"
+
+  * Key derivation
+
+    * "pbkdf2_hmac()"
+
+    * "scrypt()"
+
+  * BLAKE2
+
+    * Creating hash objects
+
+      * "blake2b()"
+
+      * "blake2s()"
+
+    * Constants
+
+      * "SALT_SIZE"
+
+      * "SALT_SIZE"
+
+      * "PERSON_SIZE"
+
+      * "PERSON_SIZE"
+
+      * "MAX_KEY_SIZE"
+
+      * "MAX_KEY_SIZE"
+
+      * "MAX_DIGEST_SIZE"
+
+      * "MAX_DIGEST_SIZE"
+
+    * Examples
+
+      * Simple hashing
+
+      * Using different digest sizes
+
+      * Keyed hashing
+
+      * Randomized hashing
+
+      * Personalization
+
+      * Tree mode
+
+    * Credits
+
+* "hmac" --- Keyed-Hashing for Message Authentication
+
+  * "new()"
+
+  * "digest()"
+
+  * "update()"
+
+  * "digest()"
+
+  * "hexdigest()"
+
+  * "copy()"
+
+  * "digest_size"
+
+  * "block_size"
+
+  * "name"
+
+  * "compare_digest()"
+
+* "secrets" --- Generate secure random numbers for managing secrets
+
+  * Random numbers
+
+    * "SystemRandom"
+
+    * "choice()"
+
+    * "randbelow()"
+
+    * "randbits()"
+
+  * Generating tokens
+
+    * "token_bytes()"
+
+    * "token_hex()"
+
+    * "token_urlsafe()"
+
+    * How many bytes should tokens use?
+
+  * Other functions
+
+    * "compare_digest()"
+
+  * Recipes and best practices

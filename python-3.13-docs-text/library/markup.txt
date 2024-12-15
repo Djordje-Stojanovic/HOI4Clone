@@ -1,0 +1,964 @@
+Structured Markup Processing Tools
+**********************************
+
+Python supports a variety of modules to work with various forms of
+structured data markup.  This includes modules to work with the
+Standard Generalized Markup Language (SGML) and the Hypertext Markup
+Language (HTML), and several interfaces for working with the
+Extensible Markup Language (XML).
+
+* "html" --- HyperText Markup Language support
+
+  * "escape()"
+
+  * "unescape()"
+
+* "html.parser" --- Simple HTML and XHTML parser
+
+  * "HTMLParser"
+
+  * Example HTML Parser Application
+
+  * "HTMLParser" Methods
+
+    * "feed()"
+
+    * "close()"
+
+    * "reset()"
+
+    * "getpos()"
+
+    * "get_starttag_text()"
+
+    * "handle_starttag()"
+
+    * "handle_endtag()"
+
+    * "handle_startendtag()"
+
+    * "handle_data()"
+
+    * "handle_entityref()"
+
+    * "handle_charref()"
+
+    * "handle_comment()"
+
+    * "handle_decl()"
+
+    * "handle_pi()"
+
+    * "unknown_decl()"
+
+  * Examples
+
+* "html.entities" --- Definitions of HTML general entities
+
+  * "html5"
+
+  * "entitydefs"
+
+  * "name2codepoint"
+
+  * "codepoint2name"
+
+* XML Processing Modules
+
+  * XML vulnerabilities
+
+  * The "defusedxml" Package
+
+* "xml.etree.ElementTree" --- The ElementTree XML API
+
+  * Tutorial
+
+    * XML tree and elements
+
+    * Parsing XML
+
+    * Pull API for non-blocking parsing
+
+    * Finding interesting elements
+
+    * Modifying an XML File
+
+    * Building XML documents
+
+    * Parsing XML with Namespaces
+
+  * XPath support
+
+    * Example
+
+    * Supported XPath syntax
+
+  * Reference
+
+    * Functions
+
+      * "canonicalize()"
+
+      * "Comment()"
+
+      * "dump()"
+
+      * "fromstring()"
+
+      * "fromstringlist()"
+
+      * "indent()"
+
+      * "iselement()"
+
+      * "iterparse()"
+
+      * "parse()"
+
+      * "ProcessingInstruction()"
+
+      * "register_namespace()"
+
+      * "SubElement()"
+
+      * "tostring()"
+
+      * "tostringlist()"
+
+      * "XML()"
+
+      * "XMLID()"
+
+  * XInclude support
+
+    * Example
+
+  * Reference
+
+    * Functions
+
+      * "default_loader()"
+
+      * "include()"
+
+    * Element Objects
+
+      * "Element"
+
+        * "tag"
+
+        * "text"
+
+        * "tail"
+
+        * "attrib"
+
+        * "clear()"
+
+        * "get()"
+
+        * "items()"
+
+        * "keys()"
+
+        * "set()"
+
+        * "append()"
+
+        * "extend()"
+
+        * "find()"
+
+        * "findall()"
+
+        * "findtext()"
+
+        * "insert()"
+
+        * "iter()"
+
+        * "iterfind()"
+
+        * "itertext()"
+
+        * "makeelement()"
+
+        * "remove()"
+
+    * ElementTree Objects
+
+      * "ElementTree"
+
+        * "_setroot()"
+
+        * "find()"
+
+        * "findall()"
+
+        * "findtext()"
+
+        * "getroot()"
+
+        * "iter()"
+
+        * "iterfind()"
+
+        * "parse()"
+
+        * "write()"
+
+    * QName Objects
+
+      * "QName"
+
+    * TreeBuilder Objects
+
+      * "TreeBuilder"
+
+        * "close()"
+
+        * "data()"
+
+        * "end()"
+
+        * "start()"
+
+        * "comment()"
+
+        * "pi()"
+
+        * "doctype()"
+
+        * "start_ns()"
+
+        * "end_ns()"
+
+      * "C14NWriterTarget"
+
+    * XMLParser Objects
+
+      * "XMLParser"
+
+        * "close()"
+
+        * "feed()"
+
+        * "flush()"
+
+    * XMLPullParser Objects
+
+      * "XMLPullParser"
+
+        * "feed()"
+
+        * "flush()"
+
+        * "close()"
+
+        * "read_events()"
+
+    * Exceptions
+
+      * "ParseError"
+
+        * "code"
+
+        * "position"
+
+* "xml.dom" --- The Document Object Model API
+
+  * Module Contents
+
+    * "registerDOMImplementation()"
+
+    * "getDOMImplementation()"
+
+    * "EMPTY_NAMESPACE"
+
+    * "XML_NAMESPACE"
+
+    * "XMLNS_NAMESPACE"
+
+    * "XHTML_NAMESPACE"
+
+  * Objects in the DOM
+
+    * DOMImplementation Objects
+
+      * "hasFeature()"
+
+      * "createDocument()"
+
+      * "createDocumentType()"
+
+    * Node Objects
+
+      * "nodeType"
+
+      * "parentNode"
+
+      * "attributes"
+
+      * "previousSibling"
+
+      * "nextSibling"
+
+      * "childNodes"
+
+      * "firstChild"
+
+      * "lastChild"
+
+      * "localName"
+
+      * "prefix"
+
+      * "namespaceURI"
+
+      * "nodeName"
+
+      * "nodeValue"
+
+      * "hasAttributes()"
+
+      * "hasChildNodes()"
+
+      * "isSameNode()"
+
+      * "appendChild()"
+
+      * "insertBefore()"
+
+      * "removeChild()"
+
+      * "replaceChild()"
+
+      * "normalize()"
+
+      * "cloneNode()"
+
+    * NodeList Objects
+
+      * "item()"
+
+      * "length"
+
+    * DocumentType Objects
+
+      * "publicId"
+
+      * "systemId"
+
+      * "internalSubset"
+
+      * "name"
+
+      * "entities"
+
+      * "notations"
+
+    * Document Objects
+
+      * "documentElement"
+
+      * "createElement()"
+
+      * "createElementNS()"
+
+      * "createTextNode()"
+
+      * "createComment()"
+
+      * "createProcessingInstruction()"
+
+      * "createAttribute()"
+
+      * "createAttributeNS()"
+
+      * "getElementsByTagName()"
+
+      * "getElementsByTagNameNS()"
+
+    * Element Objects
+
+      * "tagName"
+
+      * "getElementsByTagName()"
+
+      * "getElementsByTagNameNS()"
+
+      * "hasAttribute()"
+
+      * "hasAttributeNS()"
+
+      * "getAttribute()"
+
+      * "getAttributeNode()"
+
+      * "getAttributeNS()"
+
+      * "getAttributeNodeNS()"
+
+      * "removeAttribute()"
+
+      * "removeAttributeNode()"
+
+      * "removeAttributeNS()"
+
+      * "setAttribute()"
+
+      * "setAttributeNode()"
+
+      * "setAttributeNodeNS()"
+
+      * "setAttributeNS()"
+
+    * Attr Objects
+
+      * "name"
+
+      * "localName"
+
+      * "prefix"
+
+      * "value"
+
+    * NamedNodeMap Objects
+
+      * "length"
+
+      * "item()"
+
+    * Comment Objects
+
+      * "data"
+
+    * Text and CDATASection Objects
+
+      * "data"
+
+    * ProcessingInstruction Objects
+
+      * "target"
+
+      * "data"
+
+    * Exceptions
+
+      * "DOMException"
+
+      * "DomstringSizeErr"
+
+      * "HierarchyRequestErr"
+
+      * "IndexSizeErr"
+
+      * "InuseAttributeErr"
+
+      * "InvalidAccessErr"
+
+      * "InvalidCharacterErr"
+
+      * "InvalidModificationErr"
+
+      * "InvalidStateErr"
+
+      * "NamespaceErr"
+
+      * "NotFoundErr"
+
+      * "NotSupportedErr"
+
+      * "NoDataAllowedErr"
+
+      * "NoModificationAllowedErr"
+
+      * "SyntaxErr"
+
+      * "WrongDocumentErr"
+
+  * Conformance
+
+    * Type Mapping
+
+    * Accessor Methods
+
+* "xml.dom.minidom" --- Minimal DOM implementation
+
+  * "parse()"
+
+  * "parseString()"
+
+  * DOM Objects
+
+    * "unlink()"
+
+    * "writexml()"
+
+    * "toxml()"
+
+    * "toprettyxml()"
+
+  * DOM Example
+
+  * minidom and the DOM standard
+
+* "xml.dom.pulldom" --- Support for building partial DOM trees
+
+  * "PullDom"
+
+  * "SAX2DOM"
+
+  * "parse()"
+
+  * "parseString()"
+
+  * "default_bufsize"
+
+  * DOMEventStream Objects
+
+    * "DOMEventStream"
+
+      * "getEvent()"
+
+      * "expandNode()"
+
+      * "reset()"
+
+* "xml.sax" --- Support for SAX2 parsers
+
+  * "make_parser()"
+
+  * "parse()"
+
+  * "parseString()"
+
+  * "SAXException"
+
+  * "SAXParseException"
+
+  * "SAXNotRecognizedException"
+
+  * "SAXNotSupportedException"
+
+  * SAXException Objects
+
+    * "getMessage()"
+
+    * "getException()"
+
+* "xml.sax.handler" --- Base classes for SAX handlers
+
+  * "ContentHandler"
+
+  * "DTDHandler"
+
+  * "EntityResolver"
+
+  * "ErrorHandler"
+
+  * "LexicalHandler"
+
+  * "feature_namespaces"
+
+  * "feature_namespace_prefixes"
+
+  * "feature_string_interning"
+
+  * "feature_validation"
+
+  * "feature_external_ges"
+
+  * "feature_external_pes"
+
+  * "all_features"
+
+  * "property_lexical_handler"
+
+  * "property_declaration_handler"
+
+  * "property_dom_node"
+
+  * "property_xml_string"
+
+  * "all_properties"
+
+  * ContentHandler Objects
+
+    * "setDocumentLocator()"
+
+    * "startDocument()"
+
+    * "endDocument()"
+
+    * "startPrefixMapping()"
+
+    * "endPrefixMapping()"
+
+    * "startElement()"
+
+    * "endElement()"
+
+    * "startElementNS()"
+
+    * "endElementNS()"
+
+    * "characters()"
+
+    * "ignorableWhitespace()"
+
+    * "processingInstruction()"
+
+    * "skippedEntity()"
+
+  * DTDHandler Objects
+
+    * "notationDecl()"
+
+    * "unparsedEntityDecl()"
+
+  * EntityResolver Objects
+
+    * "resolveEntity()"
+
+  * ErrorHandler Objects
+
+    * "error()"
+
+    * "fatalError()"
+
+    * "warning()"
+
+  * LexicalHandler Objects
+
+    * "comment()"
+
+    * "startDTD()"
+
+    * "endDTD()"
+
+    * "startCDATA()"
+
+    * "endCDATA()"
+
+* "xml.sax.saxutils" --- SAX Utilities
+
+  * "escape()"
+
+  * "unescape()"
+
+  * "quoteattr()"
+
+  * "XMLGenerator"
+
+  * "XMLFilterBase"
+
+  * "prepare_input_source()"
+
+* "xml.sax.xmlreader" --- Interface for XML parsers
+
+  * "XMLReader"
+
+  * "IncrementalParser"
+
+  * "Locator"
+
+  * "InputSource"
+
+  * "AttributesImpl"
+
+  * "AttributesNSImpl"
+
+  * XMLReader Objects
+
+    * "parse()"
+
+    * "getContentHandler()"
+
+    * "setContentHandler()"
+
+    * "getDTDHandler()"
+
+    * "setDTDHandler()"
+
+    * "getEntityResolver()"
+
+    * "setEntityResolver()"
+
+    * "getErrorHandler()"
+
+    * "setErrorHandler()"
+
+    * "setLocale()"
+
+    * "getFeature()"
+
+    * "setFeature()"
+
+    * "getProperty()"
+
+    * "setProperty()"
+
+  * IncrementalParser Objects
+
+    * "feed()"
+
+    * "close()"
+
+    * "reset()"
+
+  * Locator Objects
+
+    * "getColumnNumber()"
+
+    * "getLineNumber()"
+
+    * "getPublicId()"
+
+    * "getSystemId()"
+
+  * InputSource Objects
+
+    * "setPublicId()"
+
+    * "getPublicId()"
+
+    * "setSystemId()"
+
+    * "getSystemId()"
+
+    * "setEncoding()"
+
+    * "getEncoding()"
+
+    * "setByteStream()"
+
+    * "getByteStream()"
+
+    * "setCharacterStream()"
+
+    * "getCharacterStream()"
+
+  * The "Attributes" Interface
+
+    * "getLength()"
+
+    * "getNames()"
+
+    * "getType()"
+
+    * "getValue()"
+
+  * The "AttributesNS" Interface
+
+    * "getValueByQName()"
+
+    * "getNameByQName()"
+
+    * "getQNameByName()"
+
+    * "getQNames()"
+
+* "xml.parsers.expat" --- Fast XML parsing using Expat
+
+  * "ExpatError"
+
+  * "error"
+
+  * "XMLParserType"
+
+  * "ErrorString()"
+
+  * "ParserCreate()"
+
+  * XMLParser Objects
+
+    * "Parse()"
+
+    * "ParseFile()"
+
+    * "SetBase()"
+
+    * "GetBase()"
+
+    * "GetInputContext()"
+
+    * "ExternalEntityParserCreate()"
+
+    * "SetParamEntityParsing()"
+
+    * "UseForeignDTD()"
+
+    * "SetReparseDeferralEnabled()"
+
+    * "GetReparseDeferralEnabled()"
+
+    * "buffer_size"
+
+    * "buffer_text"
+
+    * "buffer_used"
+
+    * "ordered_attributes"
+
+    * "specified_attributes"
+
+    * "ErrorByteIndex"
+
+    * "ErrorCode"
+
+    * "ErrorColumnNumber"
+
+    * "ErrorLineNumber"
+
+    * "CurrentByteIndex"
+
+    * "CurrentColumnNumber"
+
+    * "CurrentLineNumber"
+
+    * "XmlDeclHandler()"
+
+    * "StartDoctypeDeclHandler()"
+
+    * "EndDoctypeDeclHandler()"
+
+    * "ElementDeclHandler()"
+
+    * "AttlistDeclHandler()"
+
+    * "StartElementHandler()"
+
+    * "EndElementHandler()"
+
+    * "ProcessingInstructionHandler()"
+
+    * "CharacterDataHandler()"
+
+    * "UnparsedEntityDeclHandler()"
+
+    * "EntityDeclHandler()"
+
+    * "NotationDeclHandler()"
+
+    * "StartNamespaceDeclHandler()"
+
+    * "EndNamespaceDeclHandler()"
+
+    * "CommentHandler()"
+
+    * "StartCdataSectionHandler()"
+
+    * "EndCdataSectionHandler()"
+
+    * "DefaultHandler()"
+
+    * "DefaultHandlerExpand()"
+
+    * "NotStandaloneHandler()"
+
+    * "ExternalEntityRefHandler()"
+
+  * ExpatError Exceptions
+
+    * "code"
+
+    * "lineno"
+
+    * "offset"
+
+  * Example
+
+  * Content Model Descriptions
+
+  * Expat error constants
+
+    * "codes"
+
+    * "messages"
+
+    * "XML_ERROR_ASYNC_ENTITY"
+
+    * "XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF"
+
+    * "XML_ERROR_BAD_CHAR_REF"
+
+    * "XML_ERROR_BINARY_ENTITY_REF"
+
+    * "XML_ERROR_DUPLICATE_ATTRIBUTE"
+
+    * "XML_ERROR_INCORRECT_ENCODING"
+
+    * "XML_ERROR_INVALID_TOKEN"
+
+    * "XML_ERROR_JUNK_AFTER_DOC_ELEMENT"
+
+    * "XML_ERROR_MISPLACED_XML_PI"
+
+    * "XML_ERROR_NO_ELEMENTS"
+
+    * "XML_ERROR_NO_MEMORY"
+
+    * "XML_ERROR_PARAM_ENTITY_REF"
+
+    * "XML_ERROR_PARTIAL_CHAR"
+
+    * "XML_ERROR_RECURSIVE_ENTITY_REF"
+
+    * "XML_ERROR_SYNTAX"
+
+    * "XML_ERROR_TAG_MISMATCH"
+
+    * "XML_ERROR_UNCLOSED_TOKEN"
+
+    * "XML_ERROR_UNDEFINED_ENTITY"
+
+    * "XML_ERROR_UNKNOWN_ENCODING"
+
+    * "XML_ERROR_UNCLOSED_CDATA_SECTION"
+
+    * "XML_ERROR_EXTERNAL_ENTITY_HANDLING"
+
+    * "XML_ERROR_NOT_STANDALONE"
+
+    * "XML_ERROR_UNEXPECTED_STATE"
+
+    * "XML_ERROR_ENTITY_DECLARED_IN_PE"
+
+    * "XML_ERROR_FEATURE_REQUIRES_XML_DTD"
+
+    * "XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING"
+
+    * "XML_ERROR_UNBOUND_PREFIX"
+
+    * "XML_ERROR_UNDECLARING_PREFIX"
+
+    * "XML_ERROR_INCOMPLETE_PE"
+
+    * "XML_ERROR_XML_DECL"
+
+    * "XML_ERROR_TEXT_DECL"
+
+    * "XML_ERROR_PUBLICID"
+
+    * "XML_ERROR_SUSPENDED"
+
+    * "XML_ERROR_NOT_SUSPENDED"
+
+    * "XML_ERROR_ABORTED"
+
+    * "XML_ERROR_FINISHED"
+
+    * "XML_ERROR_SUSPEND_PE"
+
+    * "XML_ERROR_RESERVED_PREFIX_XML"
+
+    * "XML_ERROR_RESERVED_PREFIX_XMLNS"
+
+    * "XML_ERROR_RESERVED_NAMESPACE_URI"
+
+    * "XML_ERROR_INVALID_ARGUMENT"
+
+    * "XML_ERROR_NO_BUFFER"
+
+    * "XML_ERROR_AMPLIFICATION_LIMIT_BREACH"

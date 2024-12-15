@@ -1,0 +1,257 @@
+File Formats
+************
+
+The modules described in this chapter parse various miscellaneous file
+formats that aren't markup languages and are not related to e-mail.
+
+* "csv" --- CSV File Reading and Writing
+
+  * Module Contents
+
+    * "reader()"
+
+    * "writer()"
+
+    * "register_dialect()"
+
+    * "unregister_dialect()"
+
+    * "get_dialect()"
+
+    * "list_dialects()"
+
+    * "field_size_limit()"
+
+    * "DictReader"
+
+    * "DictWriter"
+
+    * "Dialect"
+
+    * "excel"
+
+    * "excel_tab"
+
+    * "unix_dialect"
+
+    * "Sniffer"
+
+      * "sniff()"
+
+      * "has_header()"
+
+    * "QUOTE_ALL"
+
+    * "QUOTE_MINIMAL"
+
+    * "QUOTE_NONNUMERIC"
+
+    * "QUOTE_NONE"
+
+    * "QUOTE_NOTNULL"
+
+    * "QUOTE_STRINGS"
+
+    * "Error"
+
+  * Dialects and Formatting Parameters
+
+    * "delimiter"
+
+    * "doublequote"
+
+    * "escapechar"
+
+    * "lineterminator"
+
+    * "quotechar"
+
+    * "quoting"
+
+    * "skipinitialspace"
+
+    * "strict"
+
+  * Reader Objects
+
+    * "__next__()"
+
+    * "dialect"
+
+    * "line_num"
+
+    * "fieldnames"
+
+  * Writer Objects
+
+    * "writerow()"
+
+    * "writerows()"
+
+    * "dialect"
+
+    * "writeheader()"
+
+  * Examples
+
+* "configparser" --- Configuration file parser
+
+  * Quick Start
+
+  * Supported Datatypes
+
+  * Fallback Values
+
+  * Supported INI File Structure
+
+  * Unnamed Sections
+
+  * Interpolation of values
+
+    * "BasicInterpolation"
+
+    * "ExtendedInterpolation"
+
+  * Mapping Protocol Access
+
+  * Customizing Parser Behaviour
+
+    * "BOOLEAN_STATES"
+
+    * "SECTCRE"
+
+  * Legacy API Examples
+
+  * ConfigParser Objects
+
+    * "ConfigParser"
+
+      * "defaults()"
+
+      * "sections()"
+
+      * "add_section()"
+
+      * "has_section()"
+
+      * "options()"
+
+      * "has_option()"
+
+      * "read()"
+
+      * "read_file()"
+
+      * "read_string()"
+
+      * "read_dict()"
+
+      * "get()"
+
+      * "getint()"
+
+      * "getfloat()"
+
+      * "getboolean()"
+
+      * "items()"
+
+      * "set()"
+
+      * "write()"
+
+      * "remove_option()"
+
+      * "remove_section()"
+
+      * "optionxform()"
+
+    * "UNNAMED_SECTION"
+
+    * "MAX_INTERPOLATION_DEPTH"
+
+  * RawConfigParser Objects
+
+    * "RawConfigParser"
+
+      * "add_section()"
+
+      * "set()"
+
+  * Exceptions
+
+    * "Error"
+
+    * "NoSectionError"
+
+    * "DuplicateSectionError"
+
+    * "DuplicateOptionError"
+
+    * "NoOptionError"
+
+    * "InterpolationError"
+
+    * "InterpolationDepthError"
+
+    * "InterpolationMissingOptionError"
+
+    * "InterpolationSyntaxError"
+
+    * "MissingSectionHeaderError"
+
+    * "ParsingError"
+
+    * "MultilineContinuationError"
+
+* "tomllib" --- Parse TOML files
+
+  * "load()"
+
+  * "loads()"
+
+  * "TOMLDecodeError"
+
+  * Examples
+
+  * Conversion Table
+
+* "netrc" --- netrc file processing
+
+  * "netrc"
+
+  * "NetrcParseError"
+
+    * "msg"
+
+    * "filename"
+
+    * "lineno"
+
+  * netrc Objects
+
+    * "authenticators()"
+
+    * "__repr__()"
+
+    * "hosts"
+
+    * "macros"
+
+* "plistlib" --- Generate and parse Apple ".plist" files
+
+  * "load()"
+
+  * "loads()"
+
+  * "dump()"
+
+  * "dumps()"
+
+  * "UID"
+
+  * "FMT_XML"
+
+  * "FMT_BINARY"
+
+  * Examples

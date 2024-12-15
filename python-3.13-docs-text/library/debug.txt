@@ -1,0 +1,431 @@
+Debugging and Profiling
+***********************
+
+These libraries help you with Python development: the debugger enables
+you to step through code, analyze stack frames and set breakpoints
+etc., and the profilers run code and give you a detailed breakdown of
+execution times, allowing you to identify bottlenecks in your
+programs. Auditing events provide visibility into runtime behaviors
+that would otherwise require intrusive debugging or patching.
+
+* Audit events table
+
+* "bdb" --- Debugger framework
+
+  * "BdbQuit"
+
+  * "Breakpoint"
+
+    * "deleteMe()"
+
+    * "enable()"
+
+    * "disable()"
+
+    * "bpformat()"
+
+    * "bpprint()"
+
+    * "file"
+
+    * "line"
+
+    * "temporary"
+
+    * "cond"
+
+    * "funcname"
+
+    * "enabled"
+
+    * "bpbynumber"
+
+    * "bplist"
+
+    * "ignore"
+
+    * "hits"
+
+  * "Bdb"
+
+    * "canonic()"
+
+    * "reset()"
+
+    * "trace_dispatch()"
+
+    * "dispatch_line()"
+
+    * "dispatch_call()"
+
+    * "dispatch_return()"
+
+    * "dispatch_exception()"
+
+    * "is_skipped_line()"
+
+    * "stop_here()"
+
+    * "break_here()"
+
+    * "break_anywhere()"
+
+    * "user_call()"
+
+    * "user_line()"
+
+    * "user_return()"
+
+    * "user_exception()"
+
+    * "do_clear()"
+
+    * "set_step()"
+
+    * "set_next()"
+
+    * "set_return()"
+
+    * "set_until()"
+
+    * "set_trace()"
+
+    * "set_continue()"
+
+    * "set_quit()"
+
+    * "set_break()"
+
+    * "clear_break()"
+
+    * "clear_bpbynumber()"
+
+    * "clear_all_file_breaks()"
+
+    * "clear_all_breaks()"
+
+    * "get_bpbynumber()"
+
+    * "get_break()"
+
+    * "get_breaks()"
+
+    * "get_file_breaks()"
+
+    * "get_all_breaks()"
+
+    * "get_stack()"
+
+    * "format_stack_entry()"
+
+    * "run()"
+
+    * "runeval()"
+
+    * "runctx()"
+
+    * "runcall()"
+
+  * "checkfuncname()"
+
+  * "effective()"
+
+  * "set_trace()"
+
+* "faulthandler" --- Dump the Python traceback
+
+  * Dumping the traceback
+
+    * "dump_traceback()"
+
+  * Fault handler state
+
+    * "enable()"
+
+    * "disable()"
+
+    * "is_enabled()"
+
+  * Dumping the tracebacks after a timeout
+
+    * "dump_traceback_later()"
+
+    * "cancel_dump_traceback_later()"
+
+  * Dumping the traceback on a user signal
+
+    * "register()"
+
+    * "unregister()"
+
+  * Issue with file descriptors
+
+  * Example
+
+* "pdb" --- The Python Debugger
+
+  * "run()"
+
+  * "runeval()"
+
+  * "runcall()"
+
+  * "set_trace()"
+
+  * "post_mortem()"
+
+  * "pm()"
+
+  * "Pdb"
+
+    * "run()"
+
+    * "runeval()"
+
+    * "runcall()"
+
+    * "set_trace()"
+
+  * Debugger Commands
+
+* The Python Profilers
+
+  * Introduction to the profilers
+
+  * Instant User's Manual
+
+  * "profile" and "cProfile" Module Reference
+
+    * "run()"
+
+    * "runctx()"
+
+    * "Profile"
+
+      * "enable()"
+
+      * "disable()"
+
+      * "create_stats()"
+
+      * "print_stats()"
+
+      * "dump_stats()"
+
+      * "run()"
+
+      * "runctx()"
+
+      * "runcall()"
+
+  * The "Stats" Class
+
+    * "Stats"
+
+      * "strip_dirs()"
+
+      * "add()"
+
+      * "dump_stats()"
+
+      * "sort_stats()"
+
+      * "reverse_order()"
+
+      * "print_stats()"
+
+      * "print_callers()"
+
+      * "print_callees()"
+
+      * "get_stats_profile()"
+
+  * What Is Deterministic Profiling?
+
+  * Limitations
+
+  * Calibration
+
+  * Using a custom timer
+
+* "timeit" --- Measure execution time of small code snippets
+
+  * Basic Examples
+
+  * Python Interface
+
+    * "timeit()"
+
+    * "repeat()"
+
+    * "default_timer()"
+
+    * "Timer"
+
+      * "timeit()"
+
+      * "autorange()"
+
+      * "repeat()"
+
+      * "print_exc()"
+
+  * Command-Line Interface
+
+  * Examples
+
+* "trace" --- Trace or track Python statement execution
+
+  * Command-Line Usage
+
+    * Main options
+
+    * Modifiers
+
+    * Filters
+
+  * Programmatic Interface
+
+    * "Trace"
+
+      * "run()"
+
+      * "runctx()"
+
+      * "runfunc()"
+
+      * "results()"
+
+    * "CoverageResults"
+
+      * "update()"
+
+      * "write_results()"
+
+* "tracemalloc" --- Trace memory allocations
+
+  * Examples
+
+    * Display the top 10
+
+    * Compute differences
+
+    * Get the traceback of a memory block
+
+    * Pretty top
+
+      * Record the current and peak size of all traced memory blocks
+
+  * API
+
+    * Functions
+
+      * "clear_traces()"
+
+      * "get_object_traceback()"
+
+      * "get_traceback_limit()"
+
+      * "get_traced_memory()"
+
+      * "reset_peak()"
+
+      * "get_tracemalloc_memory()"
+
+      * "is_tracing()"
+
+      * "start()"
+
+      * "stop()"
+
+      * "take_snapshot()"
+
+    * DomainFilter
+
+      * "DomainFilter"
+
+        * "inclusive"
+
+        * "domain"
+
+    * Filter
+
+      * "Filter"
+
+        * "domain"
+
+        * "inclusive"
+
+        * "lineno"
+
+        * "filename_pattern"
+
+        * "all_frames"
+
+    * Frame
+
+      * "Frame"
+
+        * "filename"
+
+        * "lineno"
+
+    * Snapshot
+
+      * "Snapshot"
+
+        * "compare_to()"
+
+        * "dump()"
+
+        * "filter_traces()"
+
+        * "load()"
+
+        * "statistics()"
+
+        * "traceback_limit"
+
+        * "traces"
+
+    * Statistic
+
+      * "Statistic"
+
+        * "count"
+
+        * "size"
+
+        * "traceback"
+
+    * StatisticDiff
+
+      * "StatisticDiff"
+
+        * "count"
+
+        * "count_diff"
+
+        * "size"
+
+        * "size_diff"
+
+        * "traceback"
+
+    * Trace
+
+      * "Trace"
+
+        * "domain"
+
+        * "size"
+
+        * "traceback"
+
+    * Traceback
+
+      * "Traceback"
+
+        * "total_nframe"
+
+        * "format()"

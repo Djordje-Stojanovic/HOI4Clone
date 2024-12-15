@@ -1,0 +1,1080 @@
+Internet Data Handling
+**********************
+
+This chapter describes modules which support handling data formats
+commonly used on the internet.
+
+* "email" --- An email and MIME handling package
+
+  * "email.message": Representing an email message
+
+    * "EmailMessage"
+
+      * "as_string()"
+
+      * "__str__()"
+
+      * "as_bytes()"
+
+      * "__bytes__()"
+
+      * "is_multipart()"
+
+      * "set_unixfrom()"
+
+      * "get_unixfrom()"
+
+      * "__len__()"
+
+      * "__contains__()"
+
+      * "__getitem__()"
+
+      * "__setitem__()"
+
+      * "__delitem__()"
+
+      * "keys()"
+
+      * "values()"
+
+      * "items()"
+
+      * "get()"
+
+      * "get_all()"
+
+      * "add_header()"
+
+      * "replace_header()"
+
+      * "get_content_type()"
+
+      * "get_content_maintype()"
+
+      * "get_content_subtype()"
+
+      * "get_default_type()"
+
+      * "set_default_type()"
+
+      * "set_param()"
+
+      * "del_param()"
+
+      * "get_filename()"
+
+      * "get_boundary()"
+
+      * "set_boundary()"
+
+      * "get_content_charset()"
+
+      * "get_charsets()"
+
+      * "is_attachment()"
+
+      * "get_content_disposition()"
+
+      * "walk()"
+
+      * "get_body()"
+
+      * "iter_attachments()"
+
+      * "iter_parts()"
+
+      * "get_content()"
+
+      * "set_content()"
+
+      * "make_related()"
+
+      * "make_alternative()"
+
+      * "make_mixed()"
+
+      * "add_related()"
+
+      * "add_alternative()"
+
+      * "add_attachment()"
+
+      * "clear()"
+
+      * "clear_content()"
+
+      * "preamble"
+
+      * "epilogue"
+
+      * "defects"
+
+    * "MIMEPart"
+
+  * "email.parser": Parsing email messages
+
+    * FeedParser API
+
+      * "BytesFeedParser"
+
+        * "feed()"
+
+        * "close()"
+
+      * "FeedParser"
+
+    * Parser API
+
+      * "BytesParser"
+
+        * "parse()"
+
+        * "parsebytes()"
+
+      * "BytesHeaderParser"
+
+      * "Parser"
+
+        * "parse()"
+
+        * "parsestr()"
+
+      * "HeaderParser"
+
+      * "message_from_bytes()"
+
+      * "message_from_binary_file()"
+
+      * "message_from_string()"
+
+      * "message_from_file()"
+
+    * Additional notes
+
+  * "email.generator": Generating MIME documents
+
+    * "BytesGenerator"
+
+      * "flatten()"
+
+      * "clone()"
+
+      * "write()"
+
+    * "Generator"
+
+      * "flatten()"
+
+      * "clone()"
+
+      * "write()"
+
+    * "DecodedGenerator"
+
+  * "email.policy": Policy Objects
+
+    * "Policy"
+
+      * "max_line_length"
+
+      * "linesep"
+
+      * "cte_type"
+
+      * "raise_on_defect"
+
+      * "mangle_from_"
+
+      * "message_factory"
+
+      * "verify_generated_headers"
+
+      * "clone()"
+
+      * "handle_defect()"
+
+      * "register_defect()"
+
+      * "header_max_count()"
+
+      * "header_source_parse()"
+
+      * "header_store_parse()"
+
+      * "header_fetch_parse()"
+
+      * "fold()"
+
+      * "fold_binary()"
+
+    * "EmailPolicy"
+
+      * "utf8"
+
+      * "refold_source"
+
+      * "header_factory"
+
+      * "content_manager"
+
+      * "header_max_count()"
+
+      * "header_source_parse()"
+
+      * "header_store_parse()"
+
+      * "header_fetch_parse()"
+
+      * "fold()"
+
+      * "fold_binary()"
+
+    * "default"
+
+    * "SMTP"
+
+    * "SMTPUTF8"
+
+    * "HTTP"
+
+    * "strict"
+
+    * "Compat32"
+
+      * "mangle_from_"
+
+      * "header_source_parse()"
+
+      * "header_store_parse()"
+
+      * "header_fetch_parse()"
+
+      * "fold()"
+
+      * "fold_binary()"
+
+    * "compat32"
+
+  * "email.errors": Exception and Defect classes
+
+    * "MessageError"
+
+    * "MessageParseError"
+
+    * "HeaderParseError"
+
+    * "BoundaryError"
+
+    * "MultipartConversionError"
+
+    * "HeaderWriteError"
+
+    * "MessageDefect"
+
+    * "HeaderDefect"
+
+  * "email.headerregistry": Custom Header Objects
+
+    * "BaseHeader"
+
+      * "name"
+
+      * "defects"
+
+      * "max_count"
+
+      * "fold()"
+
+    * "UnstructuredHeader"
+
+    * "DateHeader"
+
+      * "datetime"
+
+    * "AddressHeader"
+
+      * "groups"
+
+      * "addresses"
+
+    * "SingleAddressHeader"
+
+      * "address"
+
+    * "MIMEVersionHeader"
+
+      * "version"
+
+      * "major"
+
+      * "minor"
+
+    * "ParameterizedMIMEHeader"
+
+      * "params"
+
+    * "ContentTypeHeader"
+
+      * "content_type"
+
+      * "maintype"
+
+      * "subtype"
+
+    * "ContentDispositionHeader"
+
+      * "content_disposition"
+
+    * "ContentTransferEncoding"
+
+      * "cte"
+
+    * "HeaderRegistry"
+
+      * "map_to_type()"
+
+      * "__getitem__()"
+
+      * "__call__()"
+
+    * "Address"
+
+      * "display_name"
+
+      * "username"
+
+      * "domain"
+
+      * "addr_spec"
+
+      * "__str__()"
+
+    * "Group"
+
+      * "display_name"
+
+      * "addresses"
+
+      * "__str__()"
+
+  * "email.contentmanager": Managing MIME Content
+
+    * "ContentManager"
+
+      * "get_content()"
+
+      * "set_content()"
+
+      * "add_get_handler()"
+
+      * "add_set_handler()"
+
+    * Content Manager Instances
+
+      * "raw_data_manager"
+
+        * "get_content()"
+
+        * "set_content()"
+
+  * "email": Examples
+
+  * "email.message.Message": Representing an email message using the
+    "compat32" API
+
+    * "Message"
+
+      * "as_string()"
+
+      * "__str__()"
+
+      * "as_bytes()"
+
+      * "__bytes__()"
+
+      * "is_multipart()"
+
+      * "set_unixfrom()"
+
+      * "get_unixfrom()"
+
+      * "attach()"
+
+      * "get_payload()"
+
+      * "set_payload()"
+
+      * "set_charset()"
+
+      * "get_charset()"
+
+      * "__len__()"
+
+      * "__contains__()"
+
+      * "__getitem__()"
+
+      * "__setitem__()"
+
+      * "__delitem__()"
+
+      * "keys()"
+
+      * "values()"
+
+      * "items()"
+
+      * "get()"
+
+      * "get_all()"
+
+      * "add_header()"
+
+      * "replace_header()"
+
+      * "get_content_type()"
+
+      * "get_content_maintype()"
+
+      * "get_content_subtype()"
+
+      * "get_default_type()"
+
+      * "set_default_type()"
+
+      * "get_params()"
+
+      * "get_param()"
+
+      * "set_param()"
+
+      * "del_param()"
+
+      * "set_type()"
+
+      * "get_filename()"
+
+      * "get_boundary()"
+
+      * "set_boundary()"
+
+      * "get_content_charset()"
+
+      * "get_charsets()"
+
+      * "get_content_disposition()"
+
+      * "walk()"
+
+      * "preamble"
+
+      * "epilogue"
+
+      * "defects"
+
+  * "email.mime": Creating email and MIME objects from scratch
+
+    * "MIMEBase"
+
+    * "MIMENonMultipart"
+
+    * "MIMEMultipart"
+
+    * "MIMEApplication"
+
+    * "MIMEAudio"
+
+    * "MIMEImage"
+
+    * "MIMEMessage"
+
+    * "MIMEText"
+
+  * "email.header": Internationalized headers
+
+    * "Header"
+
+      * "append()"
+
+      * "encode()"
+
+      * "__str__()"
+
+      * "__eq__()"
+
+      * "__ne__()"
+
+    * "decode_header()"
+
+    * "make_header()"
+
+  * "email.charset": Representing character sets
+
+    * "Charset"
+
+      * "input_charset"
+
+      * "header_encoding"
+
+      * "body_encoding"
+
+      * "output_charset"
+
+      * "input_codec"
+
+      * "output_codec"
+
+      * "get_body_encoding()"
+
+      * "get_output_charset()"
+
+      * "header_encode()"
+
+      * "header_encode_lines()"
+
+      * "body_encode()"
+
+      * "__str__()"
+
+      * "__eq__()"
+
+      * "__ne__()"
+
+    * "add_charset()"
+
+    * "add_alias()"
+
+    * "add_codec()"
+
+  * "email.encoders": Encoders
+
+    * "encode_quopri()"
+
+    * "encode_base64()"
+
+    * "encode_7or8bit()"
+
+    * "encode_noop()"
+
+  * "email.utils": Miscellaneous utilities
+
+    * "localtime()"
+
+    * "make_msgid()"
+
+    * "quote()"
+
+    * "unquote()"
+
+    * "parseaddr()"
+
+    * "formataddr()"
+
+    * "getaddresses()"
+
+    * "parsedate()"
+
+    * "parsedate_tz()"
+
+    * "parsedate_to_datetime()"
+
+    * "mktime_tz()"
+
+    * "formatdate()"
+
+    * "format_datetime()"
+
+    * "decode_rfc2231()"
+
+    * "encode_rfc2231()"
+
+    * "collapse_rfc2231_value()"
+
+    * "decode_params()"
+
+  * "email.iterators": Iterators
+
+    * "body_line_iterator()"
+
+    * "typed_subpart_iterator()"
+
+    * "_structure()"
+
+* "json" --- JSON encoder and decoder
+
+  * Basic Usage
+
+    * "dump()"
+
+    * "dumps()"
+
+    * "load()"
+
+    * "loads()"
+
+  * Encoders and Decoders
+
+    * "JSONDecoder"
+
+      * "decode()"
+
+      * "raw_decode()"
+
+    * "JSONEncoder"
+
+      * "default()"
+
+      * "encode()"
+
+      * "iterencode()"
+
+  * Exceptions
+
+    * "JSONDecodeError"
+
+      * "msg"
+
+      * "doc"
+
+      * "pos"
+
+      * "lineno"
+
+      * "colno"
+
+  * Standard Compliance and Interoperability
+
+    * Character Encodings
+
+    * Infinite and NaN Number Values
+
+    * Repeated Names Within an Object
+
+    * Top-level Non-Object, Non-Array Values
+
+    * Implementation Limitations
+
+  * Command Line Interface
+
+    * Command line options
+
+* "mailbox" --- Manipulate mailboxes in various formats
+
+  * "Mailbox" objects
+
+    * "Mailbox"
+
+      * "add()"
+
+      * "remove()"
+
+      * "__delitem__()"
+
+      * "discard()"
+
+      * "__setitem__()"
+
+      * "iterkeys()"
+
+      * "keys()"
+
+      * "itervalues()"
+
+      * "__iter__()"
+
+      * "values()"
+
+      * "iteritems()"
+
+      * "items()"
+
+      * "get()"
+
+      * "__getitem__()"
+
+      * "get_message()"
+
+      * "get_bytes()"
+
+      * "get_string()"
+
+      * "get_file()"
+
+      * "__contains__()"
+
+      * "__len__()"
+
+      * "clear()"
+
+      * "pop()"
+
+      * "popitem()"
+
+      * "update()"
+
+      * "flush()"
+
+      * "lock()"
+
+      * "unlock()"
+
+      * "close()"
+
+    * "Maildir" objects
+
+      * "Maildir"
+
+        * "colon"
+
+        * "list_folders()"
+
+        * "get_folder()"
+
+        * "add_folder()"
+
+        * "remove_folder()"
+
+        * "clean()"
+
+        * "get_flags()"
+
+        * "set_flags()"
+
+        * "add_flag()"
+
+        * "remove_flag()"
+
+        * "get_info()"
+
+        * "set_info()"
+
+        * "add()"
+
+        * "__setitem__()"
+
+        * "update()"
+
+        * "flush()"
+
+        * "lock()"
+
+        * "unlock()"
+
+        * "close()"
+
+        * "get_file()"
+
+    * "mbox" objects
+
+      * "mbox"
+
+        * "get_file()"
+
+        * "lock()"
+
+        * "unlock()"
+
+    * "MH" objects
+
+      * "MH"
+
+        * "list_folders()"
+
+        * "get_folder()"
+
+        * "add_folder()"
+
+        * "remove_folder()"
+
+        * "get_sequences()"
+
+        * "set_sequences()"
+
+        * "pack()"
+
+        * "remove()"
+
+        * "__delitem__()"
+
+        * "discard()"
+
+        * "lock()"
+
+        * "unlock()"
+
+        * "get_file()"
+
+        * "flush()"
+
+        * "close()"
+
+    * "Babyl" objects
+
+      * "Babyl"
+
+        * "get_labels()"
+
+        * "get_file()"
+
+        * "lock()"
+
+        * "unlock()"
+
+    * "MMDF" objects
+
+      * "MMDF"
+
+        * "get_file()"
+
+        * "lock()"
+
+        * "unlock()"
+
+  * "Message" objects
+
+    * "Message"
+
+    * "MaildirMessage" objects
+
+      * "MaildirMessage"
+
+        * "get_subdir()"
+
+        * "set_subdir()"
+
+        * "get_flags()"
+
+        * "set_flags()"
+
+        * "add_flag()"
+
+        * "remove_flag()"
+
+        * "get_date()"
+
+        * "set_date()"
+
+        * "get_info()"
+
+        * "set_info()"
+
+    * "mboxMessage" objects
+
+      * "mboxMessage"
+
+        * "get_from()"
+
+        * "set_from()"
+
+        * "get_flags()"
+
+        * "set_flags()"
+
+        * "add_flag()"
+
+        * "remove_flag()"
+
+    * "MHMessage" objects
+
+      * "MHMessage"
+
+        * "get_sequences()"
+
+        * "set_sequences()"
+
+        * "add_sequence()"
+
+        * "remove_sequence()"
+
+    * "BabylMessage" objects
+
+      * "BabylMessage"
+
+        * "get_labels()"
+
+        * "set_labels()"
+
+        * "add_label()"
+
+        * "remove_label()"
+
+        * "get_visible()"
+
+        * "set_visible()"
+
+        * "update_visible()"
+
+    * "MMDFMessage" objects
+
+      * "MMDFMessage"
+
+        * "get_from()"
+
+        * "set_from()"
+
+        * "get_flags()"
+
+        * "set_flags()"
+
+        * "add_flag()"
+
+        * "remove_flag()"
+
+  * Exceptions
+
+    * "Error"
+
+    * "NoSuchMailboxError"
+
+    * "NotEmptyError"
+
+    * "ExternalClashError"
+
+    * "FormatError"
+
+  * Examples
+
+* "mimetypes" --- Map filenames to MIME types
+
+  * "guess_type()"
+
+  * "guess_file_type()"
+
+  * "guess_all_extensions()"
+
+  * "guess_extension()"
+
+  * "init()"
+
+  * "read_mime_types()"
+
+  * "add_type()"
+
+  * "inited"
+
+  * "knownfiles"
+
+  * "suffix_map"
+
+  * "encodings_map"
+
+  * "types_map"
+
+  * "common_types"
+
+  * MimeTypes Objects
+
+    * "MimeTypes"
+
+      * "suffix_map"
+
+      * "encodings_map"
+
+      * "types_map"
+
+      * "types_map_inv"
+
+      * "guess_extension()"
+
+      * "guess_type()"
+
+      * "guess_file_type()"
+
+      * "guess_all_extensions()"
+
+      * "read()"
+
+      * "readfp()"
+
+      * "read_windows_registry()"
+
+      * "add_type()"
+
+* "base64" --- Base16, Base32, Base64, Base85 Data Encodings
+
+  * "b64encode()"
+
+  * "b64decode()"
+
+  * "standard_b64encode()"
+
+  * "standard_b64decode()"
+
+  * "urlsafe_b64encode()"
+
+  * "urlsafe_b64decode()"
+
+  * "b32encode()"
+
+  * "b32decode()"
+
+  * "b32hexencode()"
+
+  * "b32hexdecode()"
+
+  * "b16encode()"
+
+  * "b16decode()"
+
+  * "a85encode()"
+
+  * "a85decode()"
+
+  * "b85encode()"
+
+  * "b85decode()"
+
+  * "z85encode()"
+
+  * "z85decode()"
+
+  * "decode()"
+
+  * "decodebytes()"
+
+  * "encode()"
+
+  * "encodebytes()"
+
+  * Security Considerations
+
+* "binascii" --- Convert between binary and ASCII
+
+  * "a2b_uu()"
+
+  * "b2a_uu()"
+
+  * "a2b_base64()"
+
+  * "b2a_base64()"
+
+  * "a2b_qp()"
+
+  * "b2a_qp()"
+
+  * "crc_hqx()"
+
+  * "crc32()"
+
+  * "b2a_hex()"
+
+  * "hexlify()"
+
+  * "a2b_hex()"
+
+  * "unhexlify()"
+
+  * "Error"
+
+  * "Incomplete"
+
+* "quopri" --- Encode and decode MIME quoted-printable data
+
+  * "decode()"
+
+  * "encode()"
+
+  * "decodestring()"
+
+  * "encodestring()"

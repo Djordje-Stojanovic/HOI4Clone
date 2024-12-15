@@ -1,0 +1,515 @@
+Data Compression and Archiving
+******************************
+
+The modules described in this chapter support data compression with
+the zlib, gzip, bzip2 and lzma algorithms, and the creation of ZIP-
+and tar-format archives.  See also Archiving operations provided by
+the "shutil" module.
+
+* "zlib" --- Compression compatible with **gzip**
+
+  * "error"
+
+  * "adler32()"
+
+  * "compress()"
+
+  * "compressobj()"
+
+  * "crc32()"
+
+  * "decompress()"
+
+  * "decompressobj()"
+
+  * "compress()"
+
+  * "flush()"
+
+  * "copy()"
+
+  * "unused_data"
+
+  * "unconsumed_tail"
+
+  * "eof"
+
+  * "decompress()"
+
+  * "flush()"
+
+  * "copy()"
+
+  * "ZLIB_VERSION"
+
+  * "ZLIB_RUNTIME_VERSION"
+
+* "gzip" --- Support for **gzip** files
+
+  * "open()"
+
+  * "BadGzipFile"
+
+  * "GzipFile"
+
+    * "peek()"
+
+    * "mode"
+
+    * "mtime"
+
+    * "name"
+
+  * "compress()"
+
+  * "decompress()"
+
+  * Examples of usage
+
+  * Command Line Interface
+
+    * Command line options
+
+* "bz2" --- Support for **bzip2** compression
+
+  * (De)compression of files
+
+    * "open()"
+
+    * "BZ2File"
+
+      * "peek()"
+
+      * "fileno()"
+
+      * "readable()"
+
+      * "seekable()"
+
+      * "writable()"
+
+      * "read1()"
+
+      * "readinto()"
+
+      * "mode"
+
+      * "name"
+
+  * Incremental (de)compression
+
+    * "BZ2Compressor"
+
+      * "compress()"
+
+      * "flush()"
+
+    * "BZ2Decompressor"
+
+      * "decompress()"
+
+      * "eof"
+
+      * "unused_data"
+
+      * "needs_input"
+
+  * One-shot (de)compression
+
+    * "compress()"
+
+    * "decompress()"
+
+  * Examples of usage
+
+* "lzma" --- Compression using the LZMA algorithm
+
+  * "LZMAError"
+
+  * Reading and writing compressed files
+
+    * "open()"
+
+    * "LZMAFile"
+
+      * "peek()"
+
+      * "mode"
+
+      * "name"
+
+  * Compressing and decompressing data in memory
+
+    * "LZMACompressor"
+
+      * "compress()"
+
+      * "flush()"
+
+    * "LZMADecompressor"
+
+      * "decompress()"
+
+      * "check"
+
+      * "eof"
+
+      * "unused_data"
+
+      * "needs_input"
+
+    * "compress()"
+
+    * "decompress()"
+
+  * Miscellaneous
+
+    * "is_check_supported()"
+
+  * Specifying custom filter chains
+
+  * Examples
+
+* "zipfile" --- Work with ZIP archives
+
+  * "BadZipFile"
+
+  * "BadZipfile"
+
+  * "LargeZipFile"
+
+  * "ZipInfo"
+
+  * "is_zipfile()"
+
+  * "ZIP_STORED"
+
+  * "ZIP_DEFLATED"
+
+  * "ZIP_BZIP2"
+
+  * "ZIP_LZMA"
+
+  * ZipFile Objects
+
+    * "ZipFile"
+
+    * "close()"
+
+    * "getinfo()"
+
+    * "infolist()"
+
+    * "namelist()"
+
+    * "open()"
+
+    * "extract()"
+
+    * "extractall()"
+
+    * "printdir()"
+
+    * "setpassword()"
+
+    * "read()"
+
+    * "testzip()"
+
+    * "write()"
+
+    * "writestr()"
+
+    * "mkdir()"
+
+    * "filename"
+
+    * "debug"
+
+    * "comment"
+
+  * Path Objects
+
+    * "Path"
+
+    * "name"
+
+    * "open()"
+
+    * "iterdir()"
+
+    * "is_dir()"
+
+    * "is_file()"
+
+    * "is_symlink()"
+
+    * "exists()"
+
+    * "suffix"
+
+    * "stem"
+
+    * "suffixes"
+
+    * "read_text()"
+
+    * "read_bytes()"
+
+    * "joinpath()"
+
+  * PyZipFile Objects
+
+    * "PyZipFile"
+
+      * "writepy()"
+
+  * ZipInfo Objects
+
+    * "from_file()"
+
+    * "is_dir()"
+
+    * "filename"
+
+    * "date_time"
+
+    * "compress_type"
+
+    * "comment"
+
+    * "extra"
+
+    * "create_system"
+
+    * "create_version"
+
+    * "extract_version"
+
+    * "reserved"
+
+    * "flag_bits"
+
+    * "volume"
+
+    * "internal_attr"
+
+    * "external_attr"
+
+    * "header_offset"
+
+    * "CRC"
+
+    * "compress_size"
+
+    * "file_size"
+
+  * Command-Line Interface
+
+    * Command-line options
+
+  * Decompression pitfalls
+
+    * From file itself
+
+    * File System limitations
+
+    * Resources limitations
+
+    * Interruption
+
+    * Default behaviors of extraction
+
+* "tarfile" --- Read and write tar archive files
+
+  * "open()"
+
+  * "is_tarfile()"
+
+  * "TarError"
+
+  * "ReadError"
+
+  * "CompressionError"
+
+  * "StreamError"
+
+  * "ExtractError"
+
+  * "HeaderError"
+
+  * "FilterError"
+
+    * "tarinfo"
+
+  * "AbsolutePathError"
+
+  * "OutsideDestinationError"
+
+  * "SpecialFileError"
+
+  * "AbsoluteLinkError"
+
+  * "LinkOutsideDestinationError"
+
+  * "ENCODING"
+
+  * "REGTYPE"
+
+  * "AREGTYPE"
+
+  * "LNKTYPE"
+
+  * "SYMTYPE"
+
+  * "CHRTYPE"
+
+  * "BLKTYPE"
+
+  * "DIRTYPE"
+
+  * "FIFOTYPE"
+
+  * "CONTTYPE"
+
+  * "GNUTYPE_LONGNAME"
+
+  * "GNUTYPE_LONGLINK"
+
+  * "GNUTYPE_SPARSE"
+
+  * "USTAR_FORMAT"
+
+  * "GNU_FORMAT"
+
+  * "PAX_FORMAT"
+
+  * "DEFAULT_FORMAT"
+
+  * TarFile Objects
+
+    * "TarFile"
+
+    * "open()"
+
+    * "getmember()"
+
+    * "getmembers()"
+
+    * "getnames()"
+
+    * "list()"
+
+    * "next()"
+
+    * "extractall()"
+
+    * "extract()"
+
+    * "extractfile()"
+
+    * "errorlevel"
+
+    * "extraction_filter"
+
+    * "add()"
+
+    * "addfile()"
+
+    * "gettarinfo()"
+
+    * "close()"
+
+    * "pax_headers"
+
+  * TarInfo Objects
+
+    * "TarInfo"
+
+    * "frombuf()"
+
+    * "fromtarfile()"
+
+    * "tobuf()"
+
+    * "name"
+
+    * "size"
+
+    * "mtime"
+
+    * "mode"
+
+    * "type"
+
+    * "linkname"
+
+    * "uid"
+
+    * "gid"
+
+    * "uname"
+
+    * "gname"
+
+    * "chksum"
+
+    * "devmajor"
+
+    * "devminor"
+
+    * "offset"
+
+    * "offset_data"
+
+    * "sparse"
+
+    * "pax_headers"
+
+    * "replace()"
+
+    * "isfile()"
+
+    * "isreg()"
+
+    * "isdir()"
+
+    * "issym()"
+
+    * "islnk()"
+
+    * "ischr()"
+
+    * "isblk()"
+
+    * "isfifo()"
+
+    * "isdev()"
+
+  * Extraction filters
+
+    * Default named filters
+
+      * "fully_trusted_filter()"
+
+      * "tar_filter()"
+
+      * "data_filter()"
+
+    * Filter errors
+
+    * Hints for further verification
+
+    * Supporting older Python versions
+
+    * Stateful extraction filter example
+
+  * Command-Line Interface
+
+    * Command-line options
+
+  * Examples
+
+  * Supported tar formats
+
+  * Unicode issues

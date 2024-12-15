@@ -1,0 +1,917 @@
+Concurrent Execution
+********************
+
+The modules described in this chapter provide support for concurrent
+execution of code. The appropriate choice of tool will depend on the
+task to be executed (CPU bound vs IO bound) and preferred style of
+development (event driven cooperative multitasking vs preemptive
+multitasking). Here's an overview:
+
+* "threading" --- Thread-based parallelism
+
+  * "active_count()"
+
+  * "current_thread()"
+
+  * "excepthook()"
+
+  * "__excepthook__"
+
+  * "get_ident()"
+
+  * "get_native_id()"
+
+  * "enumerate()"
+
+  * "main_thread()"
+
+  * "settrace()"
+
+  * "settrace_all_threads()"
+
+  * "gettrace()"
+
+  * "setprofile()"
+
+  * "setprofile_all_threads()"
+
+  * "getprofile()"
+
+  * "stack_size()"
+
+  * "TIMEOUT_MAX"
+
+  * Thread-Local Data
+
+    * "local"
+
+  * Thread Objects
+
+    * "Thread"
+
+      * "start()"
+
+      * "run()"
+
+      * "join()"
+
+      * "name"
+
+      * "getName()"
+
+      * "setName()"
+
+      * "ident"
+
+      * "native_id"
+
+      * "is_alive()"
+
+      * "daemon"
+
+      * "isDaemon()"
+
+      * "setDaemon()"
+
+  * Lock Objects
+
+    * "Lock"
+
+      * "acquire()"
+
+      * "release()"
+
+      * "locked()"
+
+  * RLock Objects
+
+    * "RLock"
+
+      * "acquire()"
+
+      * "release()"
+
+  * Condition Objects
+
+    * "Condition"
+
+      * "acquire()"
+
+      * "release()"
+
+      * "wait()"
+
+      * "wait_for()"
+
+      * "notify()"
+
+      * "notify_all()"
+
+  * Semaphore Objects
+
+    * "Semaphore"
+
+      * "acquire()"
+
+      * "release()"
+
+    * "BoundedSemaphore"
+
+    * "Semaphore" Example
+
+  * Event Objects
+
+    * "Event"
+
+      * "is_set()"
+
+      * "set()"
+
+      * "clear()"
+
+      * "wait()"
+
+  * Timer Objects
+
+    * "Timer"
+
+      * "cancel()"
+
+  * Barrier Objects
+
+    * "Barrier"
+
+      * "wait()"
+
+      * "reset()"
+
+      * "abort()"
+
+      * "parties"
+
+      * "n_waiting"
+
+      * "broken"
+
+    * "BrokenBarrierError"
+
+  * Using locks, conditions, and semaphores in the "with" statement
+
+* "multiprocessing" --- Process-based parallelism
+
+  * Introduction
+
+    * The "Process" class
+
+    * Contexts and start methods
+
+    * Exchanging objects between processes
+
+    * Synchronization between processes
+
+    * Sharing state between processes
+
+    * Using a pool of workers
+
+  * Reference
+
+    * "Process" and exceptions
+
+      * "Process"
+
+        * "run()"
+
+        * "start()"
+
+        * "join()"
+
+        * "name"
+
+        * "is_alive()"
+
+        * "daemon"
+
+        * "pid"
+
+        * "exitcode"
+
+        * "authkey"
+
+        * "sentinel"
+
+        * "terminate()"
+
+        * "kill()"
+
+        * "close()"
+
+      * "ProcessError"
+
+      * "BufferTooShort"
+
+      * "AuthenticationError"
+
+      * "TimeoutError"
+
+    * Pipes and Queues
+
+      * "Pipe()"
+
+      * "Queue"
+
+        * "qsize()"
+
+        * "empty()"
+
+        * "full()"
+
+        * "put()"
+
+        * "put_nowait()"
+
+        * "get()"
+
+        * "get_nowait()"
+
+        * "close()"
+
+        * "join_thread()"
+
+        * "cancel_join_thread()"
+
+      * "SimpleQueue"
+
+        * "close()"
+
+        * "empty()"
+
+        * "get()"
+
+        * "put()"
+
+      * "JoinableQueue"
+
+        * "task_done()"
+
+        * "join()"
+
+    * Miscellaneous
+
+      * "active_children()"
+
+      * "cpu_count()"
+
+      * "current_process()"
+
+      * "parent_process()"
+
+      * "freeze_support()"
+
+      * "get_all_start_methods()"
+
+      * "get_context()"
+
+      * "get_start_method()"
+
+      * "set_executable()"
+
+      * "set_forkserver_preload()"
+
+      * "set_start_method()"
+
+    * Connection Objects
+
+      * "Connection"
+
+        * "send()"
+
+        * "recv()"
+
+        * "fileno()"
+
+        * "close()"
+
+        * "poll()"
+
+        * "send_bytes()"
+
+        * "recv_bytes()"
+
+        * "recv_bytes_into()"
+
+    * Synchronization primitives
+
+      * "Barrier"
+
+      * "BoundedSemaphore"
+
+      * "Condition"
+
+      * "Event"
+
+      * "Lock"
+
+        * "acquire()"
+
+        * "release()"
+
+      * "RLock"
+
+        * "acquire()"
+
+        * "release()"
+
+      * "Semaphore"
+
+    * Shared "ctypes" Objects
+
+      * "Value()"
+
+      * "Array()"
+
+      * The "multiprocessing.sharedctypes" module
+
+        * "RawArray()"
+
+        * "RawValue()"
+
+        * "Array()"
+
+        * "Value()"
+
+        * "copy()"
+
+        * "synchronized()"
+
+    * Managers
+
+      * "Manager()"
+
+      * "BaseManager"
+
+        * "start()"
+
+        * "get_server()"
+
+        * "connect()"
+
+        * "shutdown()"
+
+        * "register()"
+
+        * "address"
+
+      * "SyncManager"
+
+        * "Barrier()"
+
+        * "BoundedSemaphore()"
+
+        * "Condition()"
+
+        * "Event()"
+
+        * "Lock()"
+
+        * "Namespace()"
+
+        * "Queue()"
+
+        * "RLock()"
+
+        * "Semaphore()"
+
+        * "Array()"
+
+        * "Value()"
+
+        * "dict()"
+
+        * "list()"
+
+      * "Namespace"
+
+      * Customized managers
+
+      * Using a remote manager
+
+    * Proxy Objects
+
+      * "BaseProxy"
+
+        * "_callmethod()"
+
+        * "_getvalue()"
+
+        * "__repr__()"
+
+        * "__str__()"
+
+      * Cleanup
+
+    * Process Pools
+
+      * "Pool"
+
+        * "apply()"
+
+        * "apply_async()"
+
+        * "map()"
+
+        * "map_async()"
+
+        * "imap()"
+
+        * "imap_unordered()"
+
+        * "starmap()"
+
+        * "starmap_async()"
+
+        * "close()"
+
+        * "terminate()"
+
+        * "join()"
+
+      * "AsyncResult"
+
+        * "get()"
+
+        * "wait()"
+
+        * "ready()"
+
+        * "successful()"
+
+    * Listeners and Clients
+
+      * "deliver_challenge()"
+
+      * "answer_challenge()"
+
+      * "Client()"
+
+      * "Listener"
+
+        * "accept()"
+
+        * "close()"
+
+        * "address"
+
+        * "last_accepted"
+
+      * "wait()"
+
+      * Address Formats
+
+    * Authentication keys
+
+    * Logging
+
+      * "get_logger()"
+
+      * "log_to_stderr()"
+
+    * The "multiprocessing.dummy" module
+
+      * "ThreadPool"
+
+  * Programming guidelines
+
+    * All start methods
+
+    * The *spawn* and *forkserver* start methods
+
+  * Examples
+
+* "multiprocessing.shared_memory" --- Shared memory for direct access
+  across processes
+
+  * "SharedMemory"
+
+    * "close()"
+
+    * "unlink()"
+
+    * "buf"
+
+    * "name"
+
+    * "size"
+
+  * "SharedMemoryManager"
+
+    * "SharedMemory()"
+
+    * "ShareableList()"
+
+  * "ShareableList"
+
+    * "count()"
+
+    * "index()"
+
+    * "format"
+
+    * "shm"
+
+* The "concurrent" package
+
+* "concurrent.futures" --- Launching parallel tasks
+
+  * Executor Objects
+
+    * "Executor"
+
+      * "submit()"
+
+      * "map()"
+
+      * "shutdown()"
+
+  * ThreadPoolExecutor
+
+    * "ThreadPoolExecutor"
+
+    * ThreadPoolExecutor Example
+
+  * ProcessPoolExecutor
+
+    * "ProcessPoolExecutor"
+
+    * ProcessPoolExecutor Example
+
+  * Future Objects
+
+    * "Future"
+
+      * "cancel()"
+
+      * "cancelled()"
+
+      * "running()"
+
+      * "done()"
+
+      * "result()"
+
+      * "exception()"
+
+      * "add_done_callback()"
+
+      * "set_running_or_notify_cancel()"
+
+      * "set_result()"
+
+      * "set_exception()"
+
+  * Module Functions
+
+    * "wait()"
+
+      * "FIRST_COMPLETED"
+
+      * "FIRST_EXCEPTION"
+
+      * "ALL_COMPLETED"
+
+    * "as_completed()"
+
+  * Exception classes
+
+    * "CancelledError"
+
+    * "TimeoutError"
+
+    * "BrokenExecutor"
+
+    * "InvalidStateError"
+
+    * "BrokenThreadPool"
+
+    * "BrokenProcessPool"
+
+* "subprocess" --- Subprocess management
+
+  * Using the "subprocess" Module
+
+    * "run()"
+
+    * "CompletedProcess"
+
+      * "args"
+
+      * "returncode"
+
+      * "stdout"
+
+      * "stderr"
+
+      * "check_returncode()"
+
+    * "DEVNULL"
+
+    * "PIPE"
+
+    * "STDOUT"
+
+    * "SubprocessError"
+
+    * "TimeoutExpired"
+
+      * "cmd"
+
+      * "timeout"
+
+      * "output"
+
+      * "stdout"
+
+      * "stderr"
+
+    * "CalledProcessError"
+
+      * "returncode"
+
+      * "cmd"
+
+      * "output"
+
+      * "stdout"
+
+      * "stderr"
+
+    * Frequently Used Arguments
+
+    * Popen Constructor
+
+      * "Popen"
+
+    * Exceptions
+
+  * Security Considerations
+
+  * Popen Objects
+
+    * "poll()"
+
+    * "wait()"
+
+    * "communicate()"
+
+    * "send_signal()"
+
+    * "terminate()"
+
+    * "kill()"
+
+    * "args"
+
+    * "stdin"
+
+    * "stdout"
+
+    * "stderr"
+
+    * "pid"
+
+    * "returncode"
+
+  * Windows Popen Helpers
+
+    * "STARTUPINFO"
+
+      * "dwFlags"
+
+      * "hStdInput"
+
+      * "hStdOutput"
+
+      * "hStdError"
+
+      * "wShowWindow"
+
+      * "lpAttributeList"
+
+    * Windows Constants
+
+      * "STD_INPUT_HANDLE"
+
+      * "STD_OUTPUT_HANDLE"
+
+      * "STD_ERROR_HANDLE"
+
+      * "SW_HIDE"
+
+      * "STARTF_USESTDHANDLES"
+
+      * "STARTF_USESHOWWINDOW"
+
+      * "STARTF_FORCEONFEEDBACK"
+
+      * "STARTF_FORCEOFFFEEDBACK"
+
+      * "CREATE_NEW_CONSOLE"
+
+      * "CREATE_NEW_PROCESS_GROUP"
+
+      * "ABOVE_NORMAL_PRIORITY_CLASS"
+
+      * "BELOW_NORMAL_PRIORITY_CLASS"
+
+      * "HIGH_PRIORITY_CLASS"
+
+      * "IDLE_PRIORITY_CLASS"
+
+      * "NORMAL_PRIORITY_CLASS"
+
+      * "REALTIME_PRIORITY_CLASS"
+
+      * "CREATE_NO_WINDOW"
+
+      * "DETACHED_PROCESS"
+
+      * "CREATE_DEFAULT_ERROR_MODE"
+
+      * "CREATE_BREAKAWAY_FROM_JOB"
+
+  * Older high-level API
+
+    * "call()"
+
+    * "check_call()"
+
+    * "check_output()"
+
+  * Replacing Older Functions with the "subprocess" Module
+
+    * Replacing **/bin/sh** shell command substitution
+
+    * Replacing shell pipeline
+
+    * Replacing "os.system()"
+
+    * Replacing the "os.spawn" family
+
+    * Replacing "os.popen()", "os.popen2()", "os.popen3()"
+
+    * Replacing functions from the "popen2" module
+
+  * Legacy Shell Invocation Functions
+
+    * "getstatusoutput()"
+
+    * "getoutput()"
+
+  * Notes
+
+    * Converting an argument sequence to a string on Windows
+
+    * Disabling use of "vfork()" or "posix_spawn()"
+
+* "sched" --- Event scheduler
+
+  * "scheduler"
+
+  * Scheduler Objects
+
+    * "enterabs()"
+
+    * "enter()"
+
+    * "cancel()"
+
+    * "empty()"
+
+    * "run()"
+
+    * "queue"
+
+* "queue" --- A synchronized queue class
+
+  * "Queue"
+
+  * "LifoQueue"
+
+  * "PriorityQueue"
+
+  * "SimpleQueue"
+
+  * "Empty"
+
+  * "Full"
+
+  * "ShutDown"
+
+  * Queue Objects
+
+    * "qsize()"
+
+    * "empty()"
+
+    * "full()"
+
+    * "put()"
+
+    * "put_nowait()"
+
+    * "get()"
+
+    * "get_nowait()"
+
+    * "task_done()"
+
+    * "join()"
+
+    * Terminating queues
+
+      * "shutdown()"
+
+  * SimpleQueue Objects
+
+    * "qsize()"
+
+    * "empty()"
+
+    * "put()"
+
+    * "put_nowait()"
+
+    * "get()"
+
+    * "get_nowait()"
+
+* "contextvars" --- Context Variables
+
+  * Context Variables
+
+    * "ContextVar"
+
+      * "name"
+
+      * "get()"
+
+      * "set()"
+
+      * "reset()"
+
+    * "Token"
+
+      * "var"
+
+      * "old_value"
+
+      * "MISSING"
+
+  * Manual Context Management
+
+    * "copy_context()"
+
+    * "Context"
+
+      * "run()"
+
+      * "copy()"
+
+      * "get()"
+
+      * "keys()"
+
+      * "values()"
+
+      * "items()"
+
+  * asyncio support
+
+The following are support modules for some of the above services:
+
+* "_thread" --- Low-level threading API
+
+  * "error"
+
+  * "LockType"
+
+  * "start_new_thread()"
+
+  * "interrupt_main()"
+
+  * "exit()"
+
+  * "allocate_lock()"
+
+  * "get_ident()"
+
+  * "get_native_id()"
+
+  * "stack_size()"
+
+  * "TIMEOUT_MAX"
+
+  * "acquire()"
+
+  * "release()"
+
+  * "locked()"

@@ -1,0 +1,478 @@
+Importing Modules
+*****************
+
+The modules described in this chapter provide new ways to import other
+Python modules and hooks for customizing the import process.
+
+The full list of modules described in this chapter is:
+
+* "zipimport" --- Import modules from Zip archives
+
+  * "ZipImportError"
+
+  * zipimporter Objects
+
+    * "zipimporter"
+
+      * "create_module()"
+
+      * "exec_module()"
+
+      * "find_spec()"
+
+      * "get_code()"
+
+      * "get_data()"
+
+      * "get_filename()"
+
+      * "get_source()"
+
+      * "is_package()"
+
+      * "load_module()"
+
+      * "invalidate_caches()"
+
+      * "archive"
+
+      * "prefix"
+
+  * Examples
+
+* "pkgutil" --- Package extension utility
+
+  * "ModuleInfo"
+
+  * "extend_path()"
+
+  * "find_loader()"
+
+  * "get_importer()"
+
+  * "get_loader()"
+
+  * "iter_importers()"
+
+  * "iter_modules()"
+
+  * "walk_packages()"
+
+  * "get_data()"
+
+  * "resolve_name()"
+
+* "modulefinder" --- Find modules used by a script
+
+  * "AddPackagePath()"
+
+  * "ReplacePackage()"
+
+  * "ModuleFinder"
+
+    * "report()"
+
+    * "run_script()"
+
+    * "modules"
+
+  * Example usage of "ModuleFinder"
+
+* "runpy" --- Locating and executing Python modules
+
+  * "run_module()"
+
+  * "run_path()"
+
+* "importlib" --- The implementation of "import"
+
+  * Introduction
+
+  * Functions
+
+    * "__import__()"
+
+    * "import_module()"
+
+    * "invalidate_caches()"
+
+    * "reload()"
+
+  * "importlib.abc" -- Abstract base classes related to import
+
+    * "MetaPathFinder"
+
+      * "find_spec()"
+
+      * "invalidate_caches()"
+
+    * "PathEntryFinder"
+
+      * "find_spec()"
+
+      * "invalidate_caches()"
+
+    * "Loader"
+
+      * "create_module()"
+
+      * "exec_module()"
+
+      * "load_module()"
+
+    * "ResourceLoader"
+
+      * "get_data()"
+
+    * "InspectLoader"
+
+      * "get_code()"
+
+      * "get_source()"
+
+      * "is_package()"
+
+      * "source_to_code()"
+
+      * "exec_module()"
+
+      * "load_module()"
+
+    * "ExecutionLoader"
+
+      * "get_filename()"
+
+    * "FileLoader"
+
+      * "name"
+
+      * "path"
+
+      * "load_module()"
+
+      * "get_filename()"
+
+      * "get_data()"
+
+    * "SourceLoader"
+
+      * "path_stats()"
+
+      * "path_mtime()"
+
+      * "set_data()"
+
+      * "get_code()"
+
+      * "exec_module()"
+
+      * "load_module()"
+
+      * "get_source()"
+
+      * "is_package()"
+
+    * "ResourceReader"
+
+      * "open_resource()"
+
+      * "resource_path()"
+
+      * "is_resource()"
+
+      * "contents()"
+
+    * "Traversable"
+
+      * "name"
+
+      * "iterdir()"
+
+      * "is_dir()"
+
+      * "is_file()"
+
+      * "joinpath()"
+
+      * "__truediv__()"
+
+      * "open()"
+
+      * "read_bytes()"
+
+      * "read_text()"
+
+    * "TraversableResources"
+
+      * "files()"
+
+  * "importlib.machinery" -- Importers and path hooks
+
+    * "SOURCE_SUFFIXES"
+
+    * "DEBUG_BYTECODE_SUFFIXES"
+
+    * "OPTIMIZED_BYTECODE_SUFFIXES"
+
+    * "BYTECODE_SUFFIXES"
+
+    * "EXTENSION_SUFFIXES"
+
+    * "all_suffixes()"
+
+    * "BuiltinImporter"
+
+    * "FrozenImporter"
+
+    * "WindowsRegistryFinder"
+
+    * "PathFinder"
+
+      * "find_spec()"
+
+      * "invalidate_caches()"
+
+    * "FileFinder"
+
+      * "path"
+
+      * "find_spec()"
+
+      * "invalidate_caches()"
+
+      * "path_hook()"
+
+    * "SourceFileLoader"
+
+      * "name"
+
+      * "path"
+
+      * "is_package()"
+
+      * "path_stats()"
+
+      * "set_data()"
+
+      * "load_module()"
+
+    * "SourcelessFileLoader"
+
+      * "name"
+
+      * "path"
+
+      * "is_package()"
+
+      * "get_code()"
+
+      * "get_source()"
+
+      * "load_module()"
+
+    * "ExtensionFileLoader"
+
+      * "name"
+
+      * "path"
+
+      * "create_module()"
+
+      * "exec_module()"
+
+      * "is_package()"
+
+      * "get_code()"
+
+      * "get_source()"
+
+      * "get_filename()"
+
+    * "NamespaceLoader"
+
+    * "ModuleSpec"
+
+      * "name"
+
+      * "loader"
+
+      * "origin"
+
+      * "submodule_search_locations"
+
+      * "loader_state"
+
+      * "cached"
+
+      * "parent"
+
+      * "has_location"
+
+    * "AppleFrameworkLoader"
+
+      * "name"
+
+      * "path"
+
+  * "importlib.util" -- Utility code for importers
+
+    * "MAGIC_NUMBER"
+
+    * "cache_from_source()"
+
+    * "source_from_cache()"
+
+    * "decode_source()"
+
+    * "resolve_name()"
+
+    * "find_spec()"
+
+    * "module_from_spec()"
+
+    * "spec_from_loader()"
+
+    * "spec_from_file_location()"
+
+    * "source_hash()"
+
+    * "_incompatible_extension_module_restrictions()"
+
+    * "LazyLoader"
+
+      * "factory()"
+
+  * Examples
+
+    * Importing programmatically
+
+    * Checking if a module can be imported
+
+    * Importing a source file directly
+
+    * Implementing lazy imports
+
+    * Setting up an importer
+
+    * Approximating "importlib.import_module()"
+
+* "importlib.resources" -- Package resource reading, opening and
+  access
+
+  * "Anchor"
+
+  * "files()"
+
+  * "as_file()"
+
+  * Functional API
+
+    * "open_binary()"
+
+    * "open_text()"
+
+    * "read_binary()"
+
+    * "read_text()"
+
+    * "path()"
+
+    * "is_resource()"
+
+    * "contents()"
+
+* "importlib.resources.abc" -- Abstract base classes for resources
+
+  * "ResourceReader"
+
+    * "open_resource()"
+
+    * "resource_path()"
+
+    * "is_resource()"
+
+    * "contents()"
+
+  * "Traversable"
+
+    * "name"
+
+    * "iterdir()"
+
+    * "is_dir()"
+
+    * "is_file()"
+
+    * "joinpath()"
+
+    * "__truediv__()"
+
+    * "open()"
+
+    * "read_bytes()"
+
+    * "read_text()"
+
+  * "TraversableResources"
+
+    * "files()"
+
+* "importlib.metadata" -- Accessing package metadata
+
+  * Overview
+
+    * "PackageNotFoundError"
+
+  * Functional API
+
+    * Entry points
+
+      * "entry_points()"
+
+      * "EntryPoints"
+
+      * "EntryPoint"
+
+    * Distribution metadata
+
+      * "metadata()"
+
+      * "PackageMetadata"
+
+    * Distribution versions
+
+      * "version()"
+
+    * Distribution files
+
+      * "files()"
+
+      * "PackagePath"
+
+    * Distribution requirements
+
+      * "requires()"
+
+    * Mapping import to distribution packages
+
+      * "packages_distributions()"
+
+  * Distributions
+
+    * "distribution()"
+
+    * "Distribution"
+
+  * Distribution Discovery
+
+  * Extending the search algorithm
+
+    * Example
+
+* The initialization of the "sys.path" module search path
+
+  * Virtual environments
+
+  * _pth files
+
+  * Embedded Python

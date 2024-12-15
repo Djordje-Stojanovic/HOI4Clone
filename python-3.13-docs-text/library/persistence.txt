@@ -1,0 +1,465 @@
+Data Persistence
+****************
+
+The modules described in this chapter support storing Python data in a
+persistent form on disk.  The "pickle" and "marshal" modules can turn
+many Python data types into a stream of bytes and then recreate the
+objects from the bytes.  The various DBM-related modules support a
+family of hash-based file formats that store a mapping of strings to
+other strings.
+
+The list of modules described in this chapter is:
+
+* "pickle" --- Python object serialization
+
+  * Relationship to other Python modules
+
+    * Comparison with "marshal"
+
+    * Comparison with "json"
+
+  * Data stream format
+
+  * Module Interface
+
+    * "HIGHEST_PROTOCOL"
+
+    * "DEFAULT_PROTOCOL"
+
+    * "dump()"
+
+    * "dumps()"
+
+    * "load()"
+
+    * "loads()"
+
+    * "PickleError"
+
+    * "PicklingError"
+
+    * "UnpicklingError"
+
+    * "Pickler"
+
+      * "dump()"
+
+      * "persistent_id()"
+
+      * "dispatch_table"
+
+      * "reducer_override()"
+
+      * "fast"
+
+    * "Unpickler"
+
+      * "load()"
+
+      * "persistent_load()"
+
+      * "find_class()"
+
+    * "PickleBuffer"
+
+      * "raw()"
+
+      * "release()"
+
+  * What can be pickled and unpickled?
+
+  * Pickling Class Instances
+
+    * "__getnewargs_ex__()"
+
+    * "__getnewargs__()"
+
+    * "__getstate__()"
+
+    * "__setstate__()"
+
+    * "__reduce__()"
+
+    * "__reduce_ex__()"
+
+    * Persistence of External Objects
+
+    * Dispatch Tables
+
+    * Handling Stateful Objects
+
+  * Custom Reduction for Types, Functions, and Other Objects
+
+  * Out-of-band Buffers
+
+    * Provider API
+
+    * Consumer API
+
+    * Example
+
+  * Restricting Globals
+
+  * Performance
+
+  * Examples
+
+* "copyreg" --- Register "pickle" support functions
+
+  * "constructor()"
+
+  * "pickle()"
+
+  * Example
+
+* "shelve" --- Python object persistence
+
+  * "open()"
+
+  * "sync()"
+
+  * "close()"
+
+  * Restrictions
+
+    * "Shelf"
+
+    * "BsdDbShelf"
+
+    * "DbfilenameShelf"
+
+  * Example
+
+* "marshal" --- Internal Python object serialization
+
+  * "dump()"
+
+  * "load()"
+
+  * "dumps()"
+
+  * "loads()"
+
+  * "version"
+
+* "dbm" --- Interfaces to Unix "databases"
+
+  * "error"
+
+  * "whichdb()"
+
+  * "open()"
+
+  * "dbm.sqlite3" --- SQLite backend for dbm
+
+    * "open()"
+
+  * "dbm.gnu" --- GNU database manager
+
+    * "error"
+
+    * "open()"
+
+      * "open_flags"
+
+      * "firstkey()"
+
+      * "nextkey()"
+
+      * "reorganize()"
+
+      * "sync()"
+
+      * "close()"
+
+      * "clear()"
+
+  * "dbm.ndbm" --- New Database Manager
+
+    * "error"
+
+    * "library"
+
+    * "open()"
+
+      * "close()"
+
+      * "clear()"
+
+  * "dbm.dumb" --- Portable DBM implementation
+
+    * "error"
+
+    * "open()"
+
+      * "sync()"
+
+      * "close()"
+
+* "sqlite3" --- DB-API 2.0 interface for SQLite databases
+
+  * Tutorial
+
+  * Reference
+
+    * Module functions
+
+      * "connect()"
+
+      * "complete_statement()"
+
+      * "enable_callback_tracebacks()"
+
+      * "register_adapter()"
+
+      * "register_converter()"
+
+    * Module constants
+
+      * "LEGACY_TRANSACTION_CONTROL"
+
+      * "PARSE_COLNAMES"
+
+      * "PARSE_DECLTYPES"
+
+      * "SQLITE_OK"
+
+      * "SQLITE_DENY"
+
+      * "SQLITE_IGNORE"
+
+      * "apilevel"
+
+      * "paramstyle"
+
+      * "sqlite_version"
+
+      * "sqlite_version_info"
+
+      * "threadsafety"
+
+      * "version"
+
+      * "version_info"
+
+      * "SQLITE_DBCONFIG_DEFENSIVE"
+
+      * "SQLITE_DBCONFIG_DQS_DDL"
+
+      * "SQLITE_DBCONFIG_DQS_DML"
+
+      * "SQLITE_DBCONFIG_ENABLE_FKEY"
+
+      * "SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER"
+
+      * "SQLITE_DBCONFIG_ENABLE_LOAD_EXTENSION"
+
+      * "SQLITE_DBCONFIG_ENABLE_QPSG"
+
+      * "SQLITE_DBCONFIG_ENABLE_TRIGGER"
+
+      * "SQLITE_DBCONFIG_ENABLE_VIEW"
+
+      * "SQLITE_DBCONFIG_LEGACY_ALTER_TABLE"
+
+      * "SQLITE_DBCONFIG_LEGACY_FILE_FORMAT"
+
+      * "SQLITE_DBCONFIG_NO_CKPT_ON_CLOSE"
+
+      * "SQLITE_DBCONFIG_RESET_DATABASE"
+
+      * "SQLITE_DBCONFIG_TRIGGER_EQP"
+
+      * "SQLITE_DBCONFIG_TRUSTED_SCHEMA"
+
+      * "SQLITE_DBCONFIG_WRITABLE_SCHEMA"
+
+    * Connection objects
+
+      * "Connection"
+
+        * "cursor()"
+
+        * "blobopen()"
+
+        * "commit()"
+
+        * "rollback()"
+
+        * "close()"
+
+        * "execute()"
+
+        * "executemany()"
+
+        * "executescript()"
+
+        * "create_function()"
+
+        * "create_aggregate()"
+
+        * "create_window_function()"
+
+        * "create_collation()"
+
+        * "interrupt()"
+
+        * "set_authorizer()"
+
+        * "set_progress_handler()"
+
+        * "set_trace_callback()"
+
+        * "enable_load_extension()"
+
+        * "load_extension()"
+
+        * "iterdump()"
+
+        * "backup()"
+
+        * "getlimit()"
+
+        * "setlimit()"
+
+        * "getconfig()"
+
+        * "setconfig()"
+
+        * "serialize()"
+
+        * "deserialize()"
+
+        * "autocommit"
+
+        * "in_transaction"
+
+        * "isolation_level"
+
+        * "row_factory"
+
+        * "text_factory"
+
+        * "total_changes"
+
+    * Cursor objects
+
+      * "Cursor"
+
+        * "execute()"
+
+        * "executemany()"
+
+        * "executescript()"
+
+        * "fetchone()"
+
+        * "fetchmany()"
+
+        * "fetchall()"
+
+        * "close()"
+
+        * "setinputsizes()"
+
+        * "setoutputsize()"
+
+        * "arraysize"
+
+        * "connection"
+
+        * "description"
+
+        * "lastrowid"
+
+        * "rowcount"
+
+        * "row_factory"
+
+    * Row objects
+
+      * "Row"
+
+        * "keys()"
+
+    * Blob objects
+
+      * "Blob"
+
+        * "close()"
+
+        * "read()"
+
+        * "write()"
+
+        * "tell()"
+
+        * "seek()"
+
+    * PrepareProtocol objects
+
+      * "PrepareProtocol"
+
+    * Exceptions
+
+      * "Warning"
+
+      * "Error"
+
+        * "sqlite_errorcode"
+
+        * "sqlite_errorname"
+
+      * "InterfaceError"
+
+      * "DatabaseError"
+
+      * "DataError"
+
+      * "OperationalError"
+
+      * "IntegrityError"
+
+      * "InternalError"
+
+      * "ProgrammingError"
+
+      * "NotSupportedError"
+
+    * SQLite and Python types
+
+    * Default adapters and converters (deprecated)
+
+    * Command-line interface
+
+  * How-to guides
+
+    * How to use placeholders to bind values in SQL queries
+
+    * How to adapt custom Python types to SQLite values
+
+      * How to write adaptable objects
+
+      * How to register adapter callables
+
+    * How to convert SQLite values to custom Python types
+
+    * Adapter and converter recipes
+
+    * How to use connection shortcut methods
+
+    * How to use the connection context manager
+
+    * How to work with SQLite URIs
+
+    * How to create and use row factories
+
+    * How to handle non-UTF-8 text encodings
+
+  * Explanation
+
+    * Transaction control
+
+      * Transaction control via the "autocommit" attribute
+
+      * Transaction control via the "isolation_level" attribute
