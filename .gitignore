@@ -20,27 +20,18 @@ wheels/
 .installed.cfg
 *.egg
 
-# Documentation
-python-3.13-docs-text/
+# Virtual Environment
+venv/
+env/
+ENV/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# Environment
-.env
-.venv
-env/
-venv/
-ENV/
+*~
 
 # OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
