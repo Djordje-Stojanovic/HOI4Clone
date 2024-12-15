@@ -1,5 +1,6 @@
 """Main game loop and input handling"""
 import pygame
+import os
 from hoi4clone.utils.config import *
 from hoi4clone.core.map import MapRenderer
 from hoi4clone.core.country import CountryManager
@@ -16,17 +17,11 @@ class Game:
         self.map_renderer = MapRenderer(self.screen)
         
         # Load city data
-        try:
-            self.city_manager.load_from_shapefile(
-                "src/hoi4clone/data/ne_10m_populated_places/ne_10m_populated_places.shp",
-                "src/hoi4clone/data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp"
-            )
-            print(f"Loaded {len(self.city_manager.cities)} cities")
-            print(f"Loaded {len(self.city_manager.country_populations)} country populations")
-        except Exception as e:
-            print(f"Error loading city data: {e}")
-            import traceback
-            traceback.print_exc()
+        data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+        self.city_manager.load_from_shapefile(
+            os.path.join(data_dir, "ne_10m_populated_places", "ne_10m_populated_places.shp"),
+            os.path.join(data_dir, "ne_10m_admin_0_countries", "ne_10m_admin_0_countries.shp")
+        )
         
         # Input state
         self.dragging = False
@@ -46,10 +41,7 @@ class Game:
                     self.last_mouse_pos = (mouse_x, mouse_y)
                 
                 elif event.button == SELECT_BUTTON:  # Right click for selection
-                    # Convert screen coordinates to geographic
                     lon, lat = self.map_renderer.screen_to_geo(mouse_x, mouse_y)
-                    
-                    # Find clicked country using spatial index
                     clicked_country = self.country_manager.get_country_at_point(lon, lat)
                     self.country_manager.select_country(clicked_country)
                 
@@ -88,6 +80,7 @@ class Game:
         """Main game loop"""
         running = True
         while running:
+            # Handle input
             running = self.handle_input()
             
             # Draw

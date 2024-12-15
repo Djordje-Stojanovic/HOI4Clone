@@ -12,33 +12,11 @@ class MapRenderer:
         self.offset_x = WINDOW_WIDTH // 2
         self.offset_y = WINDOW_HEIGHT // 2
         self.zoom = INITIAL_ZOOM
-        self._setup_viewport()
-        # Fonts for different purposes
-        self.city_font = pygame.font.Font(None, 28)
-        self.ui_font = pygame.font.Font(None, 32)  # Increased font size
-
-    def _setup_viewport(self):
-        """Initialize viewport tracking"""
-        self.viewport_min_lon = -180
-        self.viewport_max_lon = 180
-        self.viewport_min_lat = -90
-        self.viewport_max_lat = 90
-        self.update_viewport()
-
-    def update_viewport(self):
-        """Update viewport boundaries based on current view"""
-        # Convert screen corners to geographic coordinates
-        self.viewport_min_lon, self.viewport_max_lat = self.screen_to_geo(0, 0)
-        self.viewport_max_lon, self.viewport_min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
-
-    def is_in_viewport(self, country: Country) -> bool:
-        """Check if country intersects current viewport"""
-        return not (
-            country.max_lon < self.viewport_min_lon or
-            country.min_lon > self.viewport_max_lon or
-            country.max_lat < self.viewport_min_lat or
-            country.min_lat > self.viewport_max_lat
-        )
+        # Font setup
+        self.font = pygame.font.Font(None, 24)
+        # Create water background once
+        self.water_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.water_surface.fill(WATER_COLOR)
 
     def geo_to_screen(self, lon: float, lat: float) -> Tuple[int, int]:
         """Convert geographic coordinates to screen coordinates"""
@@ -60,96 +38,80 @@ class MapRenderer:
 
     def draw_country(self, country: Country):
         """Draw a single country"""
-        if not self.is_in_viewport(country):
-            return
-
-        color = country.get_color()
+        # Get visible bounds
+        min_lon, max_lat = self.screen_to_geo(0, 0)
+        max_lon, min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
         
-        # Get appropriate detail level based on zoom
-        polygons = country.get_polygons(self.zoom)
+        # Get visible polygons
+        polygons = country.get_visible_polygons(min_lon, max_lon, min_lat, max_lat, self.zoom)
         
+        # Draw polygons
         for polygon in polygons:
-            points = []
-            # Convert geographic coordinates to screen coordinates
-            for coord in polygon:
-                x, y = self.geo_to_screen(coord[0], coord[1])
-                points.append((x, y))
-            
+            points = [(self.geo_to_screen(lon, lat)) for lon, lat in polygon]
             if len(points) >= 3:
-                pygame.draw.polygon(self.screen, color, points)
-                pygame.draw.polygon(self.screen, (0, 0, 0), points, 1)
+                pygame.draw.polygon(self.screen, country.get_color(), points)
+                if self.zoom >= 1.0:
+                    pygame.draw.polygon(self.screen, (0, 0, 0), points, 1)
 
     def draw_city(self, city: City):
         """Draw a single city"""
         x, y = self.geo_to_screen(city.lon, city.lat)
         
         # Draw city marker
-        size = city.get_size(self.zoom)
-        # Larger black border
-        pygame.draw.circle(self.screen, (0, 0, 0), (x, y), size + 2)
-        # White fill
-        pygame.draw.circle(self.screen, (255, 255, 255), (x, y), size)
-        # Small black center dot
-        pygame.draw.circle(self.screen, (0, 0, 0), (x, y), max(1, size // 3))
+        pygame.draw.circle(self.screen, (0, 0, 0), (x, y), 4)
+        pygame.draw.circle(self.screen, (255, 255, 255), (x, y), 3)
+        pygame.draw.circle(self.screen, (0, 0, 0), (x, y), 1)
         
-        # Draw city name if zoomed in enough
-        if self.zoom >= 1.0 or city.population > 2000000:
-            text = self.city_font.render(city.name, True, (0, 0, 0))
-            text_rect = text.get_rect()
-            text_rect.midleft = (x + size + 4, y)
-            
-            # Add background for better readability
-            padding = 4
-            background_rect = text_rect.inflate(padding * 2, padding * 2)
-            pygame.draw.rect(self.screen, (255, 255, 255), background_rect)
-            pygame.draw.rect(self.screen, (0, 0, 0), background_rect, 1)
-            
-            self.screen.blit(text, text_rect)
-
-    def draw_ui(self):
-        """Draw UI elements"""
-        # Draw zoom level with black text
-        zoom_text = f"Zoom: {self.zoom:.1f}x"
-        text = self.ui_font.render(zoom_text, True, (0, 0, 0))  # Black text
-        text_rect = text.get_rect()
-        text_rect.topright = (WINDOW_WIDTH - 10, 10)
+        # Draw city name
+        text = self.font.render(city.name, True, (0, 0, 0))
+        text_rect = text.get_rect(midleft=(x + 6, y))
         
-        # Add white background with black border
-        padding = 6  # Increased padding
-        background_rect = text_rect.inflate(padding * 2, padding * 2)
-        background_rect.topright = (WINDOW_WIDTH - 8, 8)
-        pygame.draw.rect(self.screen, (255, 255, 255), background_rect)
-        pygame.draw.rect(self.screen, (0, 0, 0), background_rect, 1)
-        
+        # Add white background
+        bg_rect = text_rect.inflate(8, 4)
+        pygame.draw.rect(self.screen, (255, 255, 255), bg_rect)
+        pygame.draw.rect(self.screen, (0, 0, 0), bg_rect, 1)
         self.screen.blit(text, text_rect)
 
     def draw(self, country_manager: CountryManager, city_manager: CityManager):
         """Draw the map"""
-        self.screen.fill(WATER_COLOR)
-        self.update_viewport()
+        # Draw water background
+        self.screen.blit(self.water_surface, (0, 0))
         
-        # Draw all visible countries
+        # Get visible bounds
+        min_lon, max_lat = self.screen_to_geo(0, 0)
+        max_lon, min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
+        
+        # Draw countries
         for country in country_manager.countries.values():
-            if self.is_in_viewport(country):
+            if (country.max_lon >= min_lon and country.min_lon <= max_lon and
+                country.max_lat >= min_lat and country.min_lat <= max_lat):
                 self.draw_country(country)
         
-        # Draw visible cities
+        # Draw cities
         visible_cities = city_manager.get_visible_cities(
-            self.viewport_min_lon, self.viewport_max_lon,
-            self.viewport_min_lat, self.viewport_max_lat,
-            self.zoom
+            min_lon, max_lon, min_lat, max_lat, self.zoom
         )
         for city in visible_cities:
             self.draw_city(city)
         
-        # Draw UI elements
-        self.draw_ui()
+        # Draw zoom level
+        zoom_text = f"Zoom: {self.zoom:.1f}x"
+        text = self.font.render(zoom_text, True, (0, 0, 0))
+        text_rect = text.get_rect(topright=(WINDOW_WIDTH - 10, 10))
+        bg_rect = text_rect.inflate(8, 4)
+        bg_rect.topright = (WINDOW_WIDTH - 8, 8)
+        pygame.draw.rect(self.screen, (255, 255, 255), bg_rect)
+        pygame.draw.rect(self.screen, (0, 0, 0), bg_rect, 1)
+        self.screen.blit(text, text_rect)
         
         # Draw selected country name
         if country_manager.selected_country:
-            name = country_manager.selected_country.name
-            text = self.ui_font.render(name, True, TEXT_COLOR)
-            self.screen.blit(text, (10, 10))
+            text = self.font.render(country_manager.selected_country.name, True, (0, 0, 0))
+            text_rect = text.get_rect(topleft=(10, 10))
+            bg_rect = text_rect.inflate(8, 4)
+            pygame.draw.rect(self.screen, (255, 255, 255), bg_rect)
+            pygame.draw.rect(self.screen, (0, 0, 0), bg_rect, 1)
+            self.screen.blit(text, text_rect)
 
     def adjust_zoom(self, factor: float, mouse_x: int, mouse_y: int):
         """Adjust zoom level while maintaining mouse position"""
@@ -162,10 +124,8 @@ class MapRenderer:
             new_x, new_y = self.geo_to_screen(old_lon, old_lat)
             self.offset_x += mouse_x - new_x
             self.offset_y += mouse_y - new_y
-            self.update_viewport()
 
     def pan(self, dx: int, dy: int):
         """Pan the map by the given amount"""
         self.offset_x += dx
         self.offset_y += dy
-        self.update_viewport()

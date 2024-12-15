@@ -1,47 +1,41 @@
 """Main game entry point"""
 import pygame
 import sys
+import os
 from hoi4clone.core.game import Game
 from hoi4clone.core.country import CountryManager
+from hoi4clone.utils.config import WINDOW_WIDTH, WINDOW_HEIGHT
 import geopandas as gpd
-import os
 
 def main():
-    # Initialize Pygame
+    # Initialize Pygame with hardware acceleration
     pygame.init()
-    screen = pygame.display.set_mode((1200, 800))
-    pygame.display.set_caption("Map Game")
+    pygame.display.set_caption("HOI4 Clone")
     
-    # Initialize game objects
-    country_manager = CountryManager()
+    # Set display mode with hardware acceleration flags
+    flags = pygame.HWSURFACE | pygame.DOUBLEBUF
+    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), flags)
     
-    # Get the data directory path
-    data_dir = os.path.join(os.path.dirname(__file__), "data")
-    
-    # Load country data from Natural Earth shapefile
     try:
+        # Initialize country manager
+        country_manager = CountryManager()
+        
+        # Load map data
+        data_dir = os.path.join(os.path.dirname(__file__), "data")
         countries_path = os.path.join(data_dir, "ne_10m_admin_0_countries", "ne_10m_admin_0_countries.shp")
-        print("Loading shapefile...")
+        
+        # Load and convert shapefile
         gdf = gpd.read_file(countries_path)
-        print(f"Loaded {len(gdf)} countries")
-        print("Converting to GeoJSON...")
-        geojson_data = gdf.__geo_interface__
-        print("Loading into CountryManager...")
-        country_manager.load_from_geojson(geojson_data)
-        print(f"Loaded {len(country_manager.countries)} countries into manager")
+        country_manager.load_from_geojson(gdf.__geo_interface__)
+        
+        # Create and run game
+        game = Game(screen, country_manager)
+        game.run()
+        
     except Exception as e:
-        print(f"Error loading map data: {e}")
-        import traceback
-        traceback.print_exc()
+        print(f"Error: {e}")
+        pygame.quit()
         sys.exit(1)
-    
-    # Create and run game
-    game = Game(screen, country_manager)
-    game.run()
-    
-    # Cleanup
-    pygame.quit()
-    sys.exit()
 
 if __name__ == "__main__":
     main()
