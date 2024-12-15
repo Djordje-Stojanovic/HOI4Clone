@@ -1,6 +1,6 @@
 """Map rendering and coordinate handling"""
 import pygame
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 from hoi4clone.utils.config import *
 from hoi4clone.core.country import Country, CountryManager
 from hoi4clone.core.city import City, CityManager
@@ -12,11 +12,20 @@ class MapRenderer:
         self.offset_x = WINDOW_WIDTH // 2
         self.offset_y = WINDOW_HEIGHT // 2
         self.zoom = INITIAL_ZOOM
+        
         # Font setup
         self.font = pygame.font.Font(None, 24)
-        # Create water background once
+        
+        # Create water background
         self.water_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.water_surface.fill(WATER_COLOR)
+        
+        # Create main map surface
+        self.map_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.map_surface.fill(WATER_COLOR)
+        
+        # Store country geometries
+        self.country_geometries: Dict[str, List[List[Tuple[float, float]]]] = {}
 
     def geo_to_screen(self, lon: float, lat: float) -> Tuple[int, int]:
         """Convert geographic coordinates to screen coordinates"""
@@ -42,16 +51,23 @@ class MapRenderer:
         min_lon, max_lat = self.screen_to_geo(0, 0)
         max_lon, min_lat = self.screen_to_geo(WINDOW_WIDTH, WINDOW_HEIGHT)
         
-        # Get visible polygons
-        polygons = country.get_visible_polygons(min_lon, max_lon, min_lat, max_lat, self.zoom)
+        # Get polygons at appropriate detail level
+        polygons = country.get_polygons(self.zoom)
         
         # Draw polygons
         for polygon in polygons:
-            points = [(self.geo_to_screen(lon, lat)) for lon, lat in polygon]
-            if len(points) >= 3:
-                pygame.draw.polygon(self.screen, country.get_color(), points)
+            points = []
+            # Convert coordinates in batch
+            coords = np.array(polygon)
+            screen_coords = np.column_stack([
+                (coords[:, 0] + 180) / 360 * WINDOW_WIDTH * self.zoom + self.offset_x,
+                (-coords[:, 1] + 90) / 180 * WINDOW_HEIGHT * self.zoom + self.offset_y
+            ]).astype(np.int32)
+            
+            if len(screen_coords) >= 3:
+                pygame.draw.polygon(self.screen, country.get_color(), screen_coords)
                 if self.zoom >= 1.0:
-                    pygame.draw.polygon(self.screen, (0, 0, 0), points, 1)
+                    pygame.draw.polygon(self.screen, (0, 0, 0), screen_coords, 1)
 
     def draw_city(self, city: City):
         """Draw a single city"""

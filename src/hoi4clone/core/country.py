@@ -6,8 +6,8 @@ import numpy as np
 class Country:
     def __init__(self, name: str, polygons: List[List[Tuple[float, float]]]):
         self.name = name
-        # Store raw polygons
-        self.polygons = polygons
+        # Convert polygons to numpy arrays for faster operations
+        self.polygons = [np.array(polygon, dtype=np.float32) for polygon in polygons]
         # Generate random color
         self.color = (
             random.randint(100, 200),
@@ -16,39 +16,28 @@ class Country:
         )
         self.selected = False
         
-        # Calculate bounding box for quick checks
-        min_lon = float('inf')
-        max_lon = float('-inf')
-        min_lat = float('inf')
-        max_lat = float('-inf')
-        
-        for polygon in polygons:
-            for lon, lat in polygon:
-                min_lon = min(min_lon, lon)
-                max_lon = max(max_lon, lon)
-                min_lat = min(min_lat, lat)
-                max_lat = max(max_lat, lat)
-        
-        self.min_lon = min_lon
-        self.max_lon = max_lon
-        self.min_lat = min_lat
-        self.max_lat = max_lat
+        # Calculate bounding box
+        all_points = np.vstack(self.polygons)
+        self.min_lon = np.min(all_points[:, 0])
+        self.max_lon = np.max(all_points[:, 0])
+        self.min_lat = np.min(all_points[:, 1])
+        self.max_lat = np.max(all_points[:, 1])
 
-    def get_polygons(self, zoom: float) -> List[List[Tuple[float, float]]]:
+    def get_polygons(self, zoom: float) -> List[np.ndarray]:
         """Get polygons at appropriate detail level"""
-        # When zoomed in, we're seeing a smaller area, so we can skip more points
+        # Determine simplification level based on zoom
         if zoom >= 4.0:
-            # Skip 3 out of 4 points when very zoomed in
-            return [[p[i] for i in range(0, len(p), 4)] for p in self.polygons]
-        elif zoom >= 2.0:
-            # Skip every other point when moderately zoomed in
-            return [[p[i] for i in range(0, len(p), 2)] for p in self.polygons]
-        else:
-            # Use all points when zoomed out to maintain shape
+            # High detail when zoomed in
             return self.polygons
+        elif zoom >= 2.0:
+            # Skip every other point
+            return [poly[::2] for poly in self.polygons]
+        else:
+            # Low detail when zoomed out
+            return [poly[::4] for poly in self.polygons]
 
     def get_visible_polygons(self, min_lon: float, max_lon: float, 
-                           min_lat: float, max_lat: float, zoom: float) -> List[List[Tuple[float, float]]]:
+                           min_lat: float, max_lat: float, zoom: float) -> List[np.ndarray]:
         """Get only the polygons that are visible in the viewport"""
         # Quick bounding box check
         if (max_lon < self.min_lon or min_lon > self.max_lon or 
@@ -61,10 +50,10 @@ class Country:
         # Filter points to only those in viewport
         visible_polygons = []
         for polygon in polygons:
-            visible_points = []
-            for lon, lat in polygon:
-                if (min_lon <= lon <= max_lon and min_lat <= lat <= max_lat):
-                    visible_points.append((lon, lat))
+            # Use numpy for faster filtering
+            mask = ((polygon[:, 0] >= min_lon) & (polygon[:, 0] <= max_lon) &
+                   (polygon[:, 1] >= min_lat) & (polygon[:, 1] <= max_lat))
+            visible_points = polygon[mask]
             if len(visible_points) >= 3:
                 visible_polygons.append(visible_points)
         
@@ -76,16 +65,18 @@ class Country:
         if (lon < self.min_lon or lon > self.max_lon or 
             lat < self.min_lat or lat > self.max_lat):
             return False
-            
-        # Ray casting algorithm for point-in-polygon
+        
+        point = np.array([lon, lat])
+        
+        # Ray casting algorithm using numpy
         for polygon in self.polygons:
             inside = False
             j = len(polygon) - 1
             
             for i in range(len(polygon)):
-                if ((polygon[i][1] > lat) != (polygon[j][1] > lat) and
-                    lon < (polygon[j][0] - polygon[i][0]) * (lat - polygon[i][1]) /
-                    (polygon[j][1] - polygon[i][1]) + polygon[i][0]):
+                if ((polygon[i, 1] > lat) != (polygon[j, 1] > lat) and
+                    lon < (polygon[j, 0] - polygon[i, 0]) * (lat - polygon[i, 1]) /
+                    (polygon[j, 1] - polygon[i, 1]) + polygon[i, 0]):
                     inside = not inside
                 j = i
                 

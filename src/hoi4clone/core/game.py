@@ -26,6 +26,11 @@ class Game:
         # Input state
         self.dragging = False
         self.last_mouse_pos = None
+        
+        # Performance monitoring
+        self.frame_count = 0
+        self.last_time = pygame.time.get_ticks()
+        self.fps = 0
 
     def handle_input(self) -> bool:
         """Handle user input. Returns False if the game should exit."""
@@ -76,6 +81,15 @@ class Game:
         
         return True
 
+    def update_fps(self):
+        """Update FPS counter"""
+        self.frame_count += 1
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_time > 1000:  # Update every second
+            self.fps = self.frame_count
+            self.frame_count = 0
+            self.last_time = current_time
+
     def run(self):
         """Main game loop"""
         running = True
@@ -85,6 +99,13 @@ class Game:
             
             # Draw
             self.map_renderer.draw(self.country_manager, self.city_manager)
+            
+            # Update FPS counter
+            self.update_fps()
+            fps_text = self.map_renderer.font.render(f"FPS: {self.fps}", True, (0, 0, 0))
+            fps_rect = fps_text.get_rect(bottomleft=(10, WINDOW_HEIGHT - 10))
+            pygame.draw.rect(self.screen, (255, 255, 255), fps_rect.inflate(8, 4))
+            self.screen.blit(fps_text, fps_rect)
             
             # Update display
             pygame.display.flip()
